@@ -233,7 +233,6 @@ const COMERCIOS_DATA = [
         descripcion: 'Incluye tira de asado, vacío, chorizo, morcilla, ensalada mixta y vino artesanal los fines de semana.',
         tipo: 'dia_semana',
         dias_semana: [0, 5, 6], // Viernes, Sábado y Domingo
-        dia_semana: 0,
         rango_texto: 'Viernes a Domingos',
         activa: true,
         descuento_porcentaje: 15
@@ -311,7 +310,6 @@ const COMERCIOS_DATA = [
         descripcion: 'Válido para consumo en salón y pedidos de delivery por WhatsApp de martes a domingos.',
         tipo: 'dia_semana',
         dias_semana: [0, 2, 3, 4, 5, 6], // Martes a Domingos (0 es Domingo)
-        dia_semana: 0,
         rango_texto: 'Martes a Domingos',
         activa: true,
         descuento_porcentaje: 40

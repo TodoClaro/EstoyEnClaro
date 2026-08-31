@@ -317,44 +317,49 @@ function initDynamicPromos() {
   if (promosGrid) {
     if (promos.length === 0) {
       promosGrid.innerHTML = `
-        <div class="col-span-full bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-500 text-xs">
+        <div class="col-span-full bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-500 text-xs sm:text-sm">
           No hay promociones especiales vigentes en este momento. Volvé a consultar pronto.
         </div>
       `;
     } else {
       promosGrid.innerHTML = promos.map(({ promo, comercio }) => `
-        <div class="bg-white rounded-2xl border border-amber-300 ring-1 ring-amber-100 p-5 shadow-2xs hover:shadow-md transition flex flex-col justify-between group">
+        <article 
+          onclick="window.location.href='/comercios/${comercio.slug}.html'"
+          class="bg-white rounded-2xl border border-amber-300 ring-1 ring-amber-100 p-5 shadow-2xs hover:shadow-md transition flex flex-col justify-between group cursor-pointer"
+        >
           <div class="space-y-3">
             <div class="flex items-center justify-between gap-2">
               <span class="inline-flex items-center gap-1.5 bg-amber-500 text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-xs">
                 <i data-lucide="tag" class="w-3.5 h-3.5"></i>
                 ${promo.descuento_porcentaje ? `${promo.descuento_porcentaje}% OFF` : 'Beneficio'}
               </span>
-              <span class="text-[11px] font-bold text-amber-900 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">
+              <span class="text-xs font-bold text-amber-900 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-md">
                 ${promo.rango_texto || 'Vigente'}
               </span>
             </div>
             <div>
-              <h3 class="font-extrabold text-slate-900 text-sm sm:text-base group-hover:text-amber-800 transition">
+              <h3 class="font-extrabold text-slate-900 text-base group-hover:text-amber-800 transition">
                 ${promo.titulo}
               </h3>
-              <p class="text-xs text-slate-600 mt-1 leading-relaxed">${promo.descripcion}</p>
+              <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">${promo.descripcion}</p>
             </div>
-            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-              <span class="font-semibold text-slate-800">${comercio.nombre}</span>
-              <span class="text-slate-400">${comercio.zona || 'Claromecó'}</span>
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+              <span class="font-black text-slate-900 text-sm sm:text-base">${comercio.nombre}</span>
             </div>
           </div>
           <div class="pt-4 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
-            <a href="/comercios/${comercio.slug}.html" class="text-xs font-bold text-sky-600 hover:text-sky-700">Ver Ficha & Menú &rarr;</a>
+            <span class="text-xs sm:text-sm font-bold text-sky-600 group-hover:text-sky-700 inline-flex items-center gap-1">
+              <span>Ver Ficha</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+            </span>
             ${comercio.whatsapp ? `
-              <a href="https://wa.me/${comercio.whatsapp}?text=${encodeURIComponent(`Hola ${comercio.nombre}, vi su promo "${promo.titulo}" en Estoy en Claro y quería hacerles una consulta.`)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl transition shadow-xs">
+              <a href="https://wa.me/${comercio.whatsapp}?text=${encodeURIComponent(`Hola ${comercio.nombre}, vi su promo "${promo.titulo}" en Estoy en Claro y quería hacerles una consulta.`)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl transition shadow-xs">
                 <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
-                <span>Aprovechar Promo</span>
+                <span>Aprovechar</span>
               </a>
             ` : ''}
           </div>
-        </div>
+        </article>
       `).join('');
     }
   }
@@ -363,7 +368,7 @@ function initDynamicPromos() {
   if (promosCarouselTrack) {
     if (promos.length === 0) {
       promosCarouselTrack.innerHTML = `
-        <div class="w-full bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-500 text-xs">
+        <div class="w-full bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-500 text-xs sm:text-sm">
           No hay promociones especiales vigentes en este momento. Volvé a consultar pronto.
         </div>
       `;
@@ -374,38 +379,43 @@ function initDynamicPromos() {
 
     promosCarouselTrack.innerHTML = promos.map(({ promo, comercio }) => `
       <div class="carousel-promo-item flex-none w-[88vw] sm:w-[50vw] md:w-[calc(50%-10px)] lg:w-[calc(33.333%-12px)] snap-start">
-        <div class="h-full bg-white rounded-2xl border border-amber-300/90 ring-1 ring-amber-100 p-5 shadow-2xs hover:shadow-md transition flex flex-col justify-between group">
+        <article 
+          onclick="window.location.href='/comercios/${comercio.slug}.html'"
+          class="h-full bg-white rounded-2xl border border-amber-300/90 ring-1 ring-amber-100 p-5 shadow-2xs hover:shadow-md transition flex flex-col justify-between group cursor-pointer"
+        >
           <div class="space-y-3">
             <div class="flex items-center justify-between gap-2">
               <span class="inline-flex items-center gap-1.5 bg-amber-500 text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-xs">
                 <i data-lucide="tag" class="w-3.5 h-3.5"></i>
                 ${promo.descuento_porcentaje ? `${promo.descuento_porcentaje}% OFF` : 'Beneficio'}
               </span>
-              <span class="text-[10px] sm:text-[11px] font-bold text-amber-900 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md truncate max-w-[140px]">
+              <span class="text-xs font-bold text-amber-900 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md truncate max-w-[140px]">
                 ${promo.rango_texto || 'Vigente'}
               </span>
             </div>
             <div>
-              <h3 class="font-extrabold text-slate-900 text-sm sm:text-base group-hover:text-amber-800 transition line-clamp-2">
+              <h3 class="font-extrabold text-slate-900 text-base group-hover:text-amber-800 transition line-clamp-2">
                 ${promo.titulo}
               </h3>
-              <p class="text-xs text-slate-600 mt-1 leading-relaxed line-clamp-2">${promo.descripcion}</p>
+              <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed line-clamp-2">${promo.descripcion}</p>
             </div>
-            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-              <span class="font-semibold text-slate-800 truncate">${comercio.nombre}</span>
-              <span class="text-slate-400 text-[11px] shrink-0">${comercio.zona || 'Claromecó'}</span>
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+              <span class="font-black text-slate-900 text-sm sm:text-base truncate">${comercio.nombre}</span>
             </div>
           </div>
           <div class="pt-4 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
-            <a href="/comercios/${comercio.slug}.html" class="text-xs font-bold text-sky-600 hover:text-sky-700">Ver Ficha &rarr;</a>
+            <span class="text-xs sm:text-sm font-bold text-sky-600 group-hover:text-sky-700 inline-flex items-center gap-1">
+              <span>Ver Ficha</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+            </span>
             ${comercio.whatsapp ? `
-              <a href="https://wa.me/${comercio.whatsapp}?text=${encodeURIComponent(`Hola ${comercio.nombre}, vi su promo "${promo.titulo}" en Estoy en Claro y quería consultarles.`)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-xs">
+              <a href="https://wa.me/${comercio.whatsapp}?text=${encodeURIComponent(`Hola ${comercio.nombre}, vi su promo "${promo.titulo}" en Estoy en Claro y quería consultarles.`)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-xs">
                 <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
                 <span>Aprovechar</span>
               </a>
             ` : ''}
           </div>
-        </div>
+        </article>
       </div>
     `).join('');
 
@@ -541,40 +551,46 @@ function initRecommendedCarousel() {
   // Renderizar tarjetas en el track: ancho adaptable (1 tarjeta en móvil, 4 en PC)
   track.innerHTML = items.map(c => `
     <div class="carousel-item flex-none w-[88vw] sm:w-[50vw] md:w-[calc(33.333%-11px)] lg:w-[calc(25%-12px)] snap-start">
-      <article class="h-full bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xs hover:shadow-md hover:border-sky-300 transition flex flex-col justify-between group">
+      <article 
+        onclick="window.location.href='/comercios/${c.slug}.html'"
+        class="h-full bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xs hover:shadow-md hover:border-sky-300 transition flex flex-col justify-between group cursor-pointer"
+      >
         <div>
           <div class="h-40 sm:h-44 bg-slate-900 relative overflow-hidden">
             <img src="${c.imagen_portada_url || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600'}" alt="${c.nombre}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
             ${c.fijado_home ? `
-              <span class="absolute top-3 left-3 bg-amber-500 text-slate-950 text-[10px] sm:text-[11px] font-black px-2 py-0.5 rounded-md shadow-xs flex items-center gap-1">
+              <span class="absolute top-3 left-3 bg-amber-500 text-slate-950 text-xs font-black px-2.5 py-0.5 rounded-md shadow-xs flex items-center gap-1">
                 ★ Recomendado
               </span>
             ` : `
-              <span class="absolute top-3 left-3 bg-sky-600 text-white text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded shadow-xs">
+              <span class="absolute top-3 left-3 bg-sky-600 text-white text-xs font-bold px-2.5 py-0.5 rounded shadow-xs">
                 Destacado
               </span>
             `}
-            <span class="absolute bottom-3 left-3 bg-black/70 backdrop-blur-xs text-white text-[10px] font-bold px-2 py-0.5 rounded">
+            <span class="absolute bottom-3 left-3 bg-black/70 backdrop-blur-xs text-white text-xs font-bold px-2 py-0.5 rounded">
               ${c.subcategoria}
             </span>
           </div>
           <div class="p-4 space-y-1.5">
-            <h3 class="font-extrabold text-slate-900 text-sm sm:text-base group-hover:text-sky-600 transition line-clamp-1">
+            <h3 class="font-black text-slate-900 text-base sm:text-lg group-hover:text-sky-600 transition line-clamp-1">
               ${c.nombre}
             </h3>
-            <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+            <p class="text-xs sm:text-sm text-slate-600 line-clamp-2 leading-relaxed">
               ${c.descripcion}
             </p>
-            <div class="flex items-center gap-1.5 text-[11px] text-slate-500 pt-1">
+            <div class="flex items-center gap-1.5 text-xs text-slate-500 pt-1">
               <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sky-600 shrink-0"></i>
               <span class="truncate">${c.direccion}</span>
             </div>
           </div>
         </div>
         <div class="p-4 pt-0 flex items-center justify-between border-t border-slate-100 mt-2">
-          <a href="/comercios/${c.slug}.html" class="text-xs font-bold text-sky-600 hover:text-sky-700">Ver Ficha &rarr;</a>
+          <span class="text-xs sm:text-sm font-bold text-sky-600 group-hover:text-sky-700 inline-flex items-center gap-1">
+            <span>Ver Ficha</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+          </span>
           ${c.whatsapp ? `
-            <a href="https://wa.me/${c.whatsapp}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-2.5 py-1.5 rounded-xl transition" title="Enviar WhatsApp">
+            <a href="https://wa.me/${c.whatsapp}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center gap-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-xs" title="Enviar WhatsApp">
               <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
               <span>WhatsApp</span>
             </a>
@@ -916,7 +932,10 @@ function initCategoryPage() {
     }
 
     categoryGrid.innerHTML = filtrados.map(comercio => `
-      <article class="bg-white rounded-3xl border border-slate-200/90 shadow-2xs hover:shadow-lg hover:border-sky-300 transition-all flex flex-col justify-between overflow-hidden group">
+      <article 
+        onclick="window.location.href='/comercios/${comercio.slug}.html'"
+        class="bg-white rounded-3xl border border-slate-200/90 shadow-2xs hover:shadow-lg hover:border-sky-300 transition-all flex flex-col justify-between overflow-hidden group cursor-pointer"
+      >
         <div>
           <!-- Portada -->
           <div class="relative h-44 sm:h-48 overflow-hidden bg-slate-100">
@@ -929,22 +948,22 @@ function initCategoryPage() {
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
             
             <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
-              <span class="bg-white/95 backdrop-blur-xs text-slate-900 text-[10px] font-extrabold px-2.5 py-1 rounded-lg shadow-xs">
+              <span class="bg-white/95 backdrop-blur-xs text-slate-900 text-xs font-extrabold px-2.5 py-1 rounded-lg shadow-xs">
                 ${comercio.subcategoria}
               </span>
               ${comercio.fijado_home ? `
-                <span class="bg-amber-500 text-white text-[10px] font-black px-2.5 py-1 rounded-lg shadow-xs flex items-center gap-1">
-                  <i data-lucide="sparkles" class="w-3 h-3"></i> Recomendado
+                <span class="bg-amber-500 text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-xs flex items-center gap-1">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Recomendado
                 </span>
               ` : ''}
             </div>
 
             <div class="absolute bottom-3 left-3 right-3 text-white">
-              <h3 class="font-extrabold text-base sm:text-lg leading-snug drop-shadow-sm group-hover:text-cyan-200 transition-colors">
+              <h3 class="font-black text-base sm:text-lg leading-snug drop-shadow-sm group-hover:text-cyan-200 transition-colors">
                 ${comercio.nombre}
               </h3>
-              <p class="text-[11px] text-slate-200 flex items-center gap-1 mt-0.5">
-                <i data-lucide="map-pin" class="w-3 h-3 text-cyan-300 shrink-0"></i>
+              <p class="text-xs text-slate-200 flex items-center gap-1 mt-0.5">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-cyan-300 shrink-0"></i>
                 <span class="truncate">${comercio.zona || comercio.direccion}</span>
               </p>
             </div>
@@ -952,25 +971,25 @@ function initCategoryPage() {
 
           <!-- Contenido / Info -->
           <div class="p-4 sm:p-5 space-y-3">
-            <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+            <p class="text-xs sm:text-sm text-slate-600 line-clamp-2 leading-relaxed">
               ${comercio.descripcion}
             </p>
 
             <div class="space-y-1.5 pt-2 border-t border-slate-100 text-xs text-slate-500">
               <div class="flex items-start gap-1.5">
                 <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400 mt-0.5 shrink-0"></i>
-                <span class="text-[11px] text-slate-600 truncate">${comercio.horario || 'Consultar horario'}</span>
+                <span class="text-xs text-slate-600 truncate">${comercio.horario || 'Consultar horario'}</span>
               </div>
               <div class="flex items-start gap-1.5">
                 <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400 mt-0.5 shrink-0"></i>
-                <span class="text-[11px] text-slate-600 truncate">${comercio.direccion}</span>
+                <span class="text-xs text-slate-600 truncate">${comercio.direccion}</span>
               </div>
             </div>
 
             ${comercio.promos && comercio.promos.length > 0 ? `
               <div class="bg-amber-50 border border-amber-200/80 rounded-xl p-2.5 flex items-center gap-2 text-amber-900 text-xs">
                 <i data-lucide="tag" class="w-4 h-4 text-amber-600 shrink-0"></i>
-                <span class="font-bold text-[11px] truncate">${comercio.promos[0].titulo}</span>
+                <span class="font-bold text-xs truncate">${comercio.promos[0].titulo}</span>
               </div>
             ` : ''}
           </div>
@@ -978,17 +997,17 @@ function initCategoryPage() {
 
         <!-- Acciones Inferiores -->
         <div class="p-4 sm:p-5 pt-0 flex items-center justify-between gap-2">
-          <a 
-            href="/comercios/${comercio.slug}.html" 
-            class="flex-1 bg-slate-100 hover:bg-sky-50 hover:text-sky-700 text-slate-800 text-xs font-bold py-2.5 px-3 rounded-xl transition text-center"
+          <span 
+            class="flex-1 bg-slate-100 group-hover:bg-sky-50 group-hover:text-sky-700 text-slate-800 text-xs sm:text-sm font-bold py-2.5 px-3 rounded-xl transition text-center"
           >
-            Ver Ficha Completa
-          </a>
+            Ver Ficha Completa &rarr;
+          </span>
           ${comercio.whatsapp ? `
             <a 
               href="https://wa.me/${comercio.whatsapp}?text=${encodeURIComponent(`Hola ${comercio.nombre}, los encontré en la guía Estoy en Claro y quería hacerles una consulta.`)}" 
               target="_blank" 
               rel="noopener noreferrer" 
+              onclick="event.stopPropagation()"
               class="bg-emerald-600 hover:bg-emerald-700 text-white p-2.5 rounded-xl transition shadow-xs flex items-center justify-center shrink-0" 
               title="Contactar por WhatsApp"
             >
@@ -1073,8 +1092,26 @@ function initCategoryPage() {
 }
 
 // --------------------------------------------------------------------
-// 7. Utilidad para Compartir Ficha de Comercio
+// 7. Utilidad para Compartir Ficha de Comercio & Notificaciones Toast
 // --------------------------------------------------------------------
+function showToast(message) {
+  let toast = document.getElementById('app-toast-notification');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'app-toast-notification';
+    toast.className = 'fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-2xl shadow-xl border border-slate-700 transition-all duration-300 opacity-0 pointer-events-none transform translate-y-2';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+  toast.classList.add('opacity-100', 'translate-y-0');
+
+  setTimeout(() => {
+    toast.classList.remove('opacity-100', 'translate-y-0');
+    toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+  }, 2500);
+}
+
 window.compartirFicha = function(titulo, texto, url) {
   const shareData = {
     title: titulo || document.title,
@@ -1086,7 +1123,7 @@ window.compartirFicha = function(titulo, texto, url) {
     navigator.share(shareData).catch(() => {});
   } else if (navigator.clipboard) {
     navigator.clipboard.writeText(shareData.url).then(() => {
-      alert('¡Enlace copiado al portapapeles!');
+      showToast('¡Enlace copiado al portapapeles!');
     }).catch(() => {});
   }
 };

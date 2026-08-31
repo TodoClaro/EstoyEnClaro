@@ -98,110 +98,118 @@
           </div>
         </div>
 
-        <!-- Grilla de las 8 categorías oficiales en orden (Móvil: Ícono arriba y nombre completo abajo / Desktop: Fila compacta) -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3">
+        <!-- Grilla de las 8 categorías oficiales en orden (Móvil: 1 columna de ancho completo / Desktop: Grilla de 4 columnas) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
           <!-- 1. Gastronomía -->
-          <a href="/categorias/gastronomia.html" class="p-3 sm:p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-amber-500 hover:shadow-sm transition flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left group justify-center sm:justify-start min-h-[92px] sm:min-h-0">
-            <div class="w-11 h-11 sm:w-10 sm:h-10 rounded-2xl sm:rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+          <a href="/categorias/gastronomia.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-amber-500 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white sm:bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="utensils" class="w-5 h-5"></i>
             </div>
-            <div class="min-w-0 w-full sm:w-auto">
-              <h3 class="font-bold text-slate-900 text-xs sm:text-sm group-hover:text-amber-600 leading-tight sm:leading-snug break-words sm:truncate">
+            <div class="min-w-0 flex-1">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-amber-600 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">1. </span>Gastronomía
               </h3>
-              <p class="text-[11px] text-slate-500 truncate hidden sm:block">Parrillas, restobares, helados</p>
+              <p class="text-[11px] text-slate-500 truncate">Parrillas, restobares, helados</p>
             </div>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-amber-600/60 sm:hidden shrink-0 ml-auto"></i>
           </a>
 
           <!-- 2. Alojamiento -->
-          <a href="/categorias/alojamiento.html" class="p-3 sm:p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-sky-500 hover:shadow-sm transition flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left group justify-center sm:justify-start min-h-[92px] sm:min-h-0">
-            <div class="w-11 h-11 sm:w-10 sm:h-10 rounded-2xl sm:rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+          <a href="/categorias/alojamiento.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-sky-50/80 border border-sky-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-sky-500 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white sm:bg-sky-50 text-sky-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="hotel" class="w-5 h-5"></i>
             </div>
-            <div class="min-w-0 w-full sm:w-auto">
-              <h3 class="font-bold text-slate-900 text-xs sm:text-sm group-hover:text-sky-600 leading-tight sm:leading-snug break-words sm:truncate">
+            <div class="min-w-0 flex-1">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-sky-600 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">2. </span>Alojamiento
               </h3>
-              <p class="text-[11px] text-slate-500 truncate hidden sm:block">Cabañas Dunamar, hoteles</p>
+              <p class="text-[11px] text-slate-500 truncate">Cabañas Dunamar, hoteles</p>
             </div>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-sky-600/60 sm:hidden shrink-0 ml-auto"></i>
           </a>
 
           <!-- 3. Inmobiliarias y Alquileres -->
-          <a href="/categorias/inmobiliarias_alquileres.html" class="p-3 sm:p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-blue-500 hover:shadow-sm transition flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left group justify-center sm:justify-start min-h-[92px] sm:min-h-0">
-            <div class="w-11 h-11 sm:w-10 sm:h-10 rounded-2xl sm:rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+          <a href="/categorias/inmobiliarias_alquileres.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-blue-50/80 border border-blue-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-blue-500 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white sm:bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="building-2" class="w-5 h-5"></i>
             </div>
-            <div class="min-w-0 w-full sm:w-auto">
-              <h3 class="font-bold text-slate-900 text-xs sm:text-sm group-hover:text-blue-600 leading-tight sm:leading-snug break-words sm:truncate">
+            <div class="min-w-0 flex-1">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-blue-600 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">3. </span>Inmobiliarias y Alquileres
               </h3>
-              <p class="text-[11px] text-slate-500 truncate hidden sm:block">Alquiler temporada, ventas</p>
+              <p class="text-[11px] text-slate-500 truncate">Alquiler temporada, ventas</p>
             </div>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-blue-600/60 sm:hidden shrink-0 ml-auto"></i>
           </a>
 
           <!-- 4. Almacenes y Kioscos -->
-          <a href="/categorias/almacenes_kioscos.html" class="p-3 sm:p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-emerald-500 hover:shadow-sm transition flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left group justify-center sm:justify-start min-h-[92px] sm:min-h-0">
-            <div class="w-11 h-11 sm:w-10 sm:h-10 rounded-2xl sm:rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+          <a href="/categorias/almacenes_kioscos.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-emerald-50/80 border border-emerald-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-emerald-500 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white sm:bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="shopping-bag" class="w-5 h-5"></i>
             </div>
-            <div class="min-w-0 w-full sm:w-auto">
-              <h3 class="font-bold text-slate-900 text-xs sm:text-sm group-hover:text-emerald-600 leading-tight sm:leading-snug break-words sm:truncate">
+            <div class="min-w-0 flex-1">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-emerald-600 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">4. </span>Almacenes y Kioscos
               </h3>
-              <p class="text-[11px] text-slate-500 truncate hidden sm:block">Supermercados, 24hs</p>
+              <p class="text-[11px] text-slate-500 truncate">Supermercados, 24hs</p>
             </div>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-emerald-600/60 sm:hidden shrink-0 ml-auto"></i>
           </a>
 
           <!-- 5. Servicios y Oficios -->
-          <a href="/categorias/servicios_oficios.html" class="p-3 sm:p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-indigo-500 hover:shadow-sm transition flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left group justify-center sm:justify-start min-h-[92px] sm:min-h-0">
-            <div class="w-11 h-11 sm:w-10 sm:h-10 rounded-2xl sm:rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+          <a href="/categorias/servicios_oficios.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-indigo-50/80 border border-indigo-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-indigo-500 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white sm:bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="wrench" class="w-5 h-5"></i>
             </div>
-            <div class="min-w-0 w-full sm:w-auto">
-              <h3 class="font-bold text-slate-900 text-xs sm:text-sm group-hover:text-indigo-600 leading-tight sm:leading-snug break-words sm:truncate">
+            <div class="min-w-0 flex-1">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-indigo-600 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">5. </span>Servicios y Oficios
               </h3>
-              <p class="text-[11px] text-slate-500 truncate hidden sm:block">Ferretería, auxilio, talleres</p>
+              <p class="text-[11px] text-slate-500 truncate">Ferretería, auxilio, talleres</p>
             </div>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-indigo-600/60 sm:hidden shrink-0 ml-auto"></i>
           </a>
 
           <!-- 6. Compras & Regalos -->
-          <a href="/categorias/compras_regaleria.html" class="p-3 sm:p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-rose-500 hover:shadow-sm transition flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left group justify-center sm:justify-start min-h-[92px] sm:min-h-0">
-            <div class="w-11 h-11 sm:w-10 sm:h-10 rounded-2xl sm:rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+          <a href="/categorias/compras_regaleria.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-rose-50/80 border border-rose-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-rose-500 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white sm:bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="gift" class="w-5 h-5"></i>
             </div>
-            <div class="min-w-0 w-full sm:w-auto">
-              <h3 class="font-bold text-slate-900 text-xs sm:text-sm group-hover:text-rose-600 leading-tight sm:leading-snug break-words sm:truncate">
+            <div class="min-w-0 flex-1">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-rose-600 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">6. </span>Compras & Regalos
               </h3>
-              <p class="text-[11px] text-slate-500 truncate hidden sm:block">Souvenirs, playa, regalos</p>
+              <p class="text-[11px] text-slate-500 truncate">Souvenirs, playa, regalos</p>
             </div>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-rose-600/60 sm:hidden shrink-0 ml-auto"></i>
           </a>
 
           <!-- 7. Comercios en Gral. -->
-          <a href="/categorias/comercios_gral.html" class="p-3 sm:p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-slate-700 hover:shadow-sm transition flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left group justify-center sm:justify-start min-h-[92px] sm:min-h-0">
-            <div class="w-11 h-11 sm:w-10 sm:h-10 rounded-2xl sm:rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+          <a href="/categorias/comercios_gral.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-slate-100/90 border border-slate-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-slate-700 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white sm:bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="store" class="w-5 h-5"></i>
             </div>
-            <div class="min-w-0 w-full sm:w-auto">
-              <h3 class="font-bold text-slate-900 text-xs sm:text-sm group-hover:text-slate-800 leading-tight sm:leading-snug break-words sm:truncate">
+            <div class="min-w-0 flex-1">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-slate-800 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">7. </span>Comercios en Gral.
               </h3>
-              <p class="text-[11px] text-slate-500 truncate hidden sm:block">Pesca, carnadas, varios</p>
+              <p class="text-[11px] text-slate-500 truncate">Pesca, carnadas, varios</p>
             </div>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 sm:hidden shrink-0 ml-auto"></i>
           </a>
 
           <!-- 8. Turismo y Ocio -->
-          <a href="/categorias/turismo_deportes.html" class="p-3 sm:p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-cyan-500 hover:shadow-sm transition flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left group justify-center sm:justify-start min-h-[92px] sm:min-h-0">
-            <div class="w-11 h-11 sm:w-10 sm:h-10 rounded-2xl sm:rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+          <a href="/categorias/turismo_deportes.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-cyan-50/80 border border-cyan-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-cyan-500 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white sm:bg-cyan-50 text-cyan-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="compass" class="w-5 h-5"></i>
             </div>
-            <div class="min-w-0 w-full sm:w-auto">
-              <h3 class="font-bold text-slate-900 text-xs sm:text-sm group-hover:text-cyan-600 leading-tight sm:leading-snug break-words sm:truncate">
+            <div class="min-w-0 flex-1">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-cyan-600 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">8. </span>Turismo y Ocio
               </h3>
-              <p class="text-[11px] text-slate-500 truncate hidden sm:block">Kayaks, pádel, paradores</p>
+              <p class="text-[11px] text-slate-500 truncate">Kayaks, pádel, paradores</p>
             </div>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-cyan-600/60 sm:hidden shrink-0 ml-auto"></i>
           </a>
         </div>
       </section>
