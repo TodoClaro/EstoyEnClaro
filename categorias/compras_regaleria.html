@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Compras & Regalos en Claromecó | Souvenirs, Ropa de Playa y Artesanías</title>
+    <meta name="description" content="Locales de indumentaria, regalerías, artesanías, souvenirs de mar, mallas y artículos de playa en Claromecó." />
+    <meta property="og:title" content="Compras & Regalos en Claromecó | Estoy en Claro" />
+    <meta property="og:description" content="Souvenirs, regalerías y artículos de playa en Claromecó." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    <meta name="theme-color" content="#0284c7" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+              display: ['Outfit', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body data-categoria-id="compras_regaleria" class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen flex flex-col pb-20 md:pb-0">
+
+    <!-- HEADER / NAVBAR COMPARTIDO -->
+    <div id="header-placeholder"></div>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+            <!-- Breadcrumbs -->
+      <nav class="flex items-center gap-2 text-xs text-slate-500">
+        <a href="/" class="hover:text-slate-900 transition">Inicio</a>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+        <a href="/categorias/index.html" class="hover:text-slate-900 transition">Categorías</a>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+        <span class="text-slate-800 font-bold">Compras & Regalos</span>
+      </nav>
+
+            <!-- Category Hero Banner -->
+      <section class="bg-gradient-to-br from-rose-600 via-rose-700 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="space-y-2 max-w-2xl">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-white/20 text-white flex items-center justify-center shrink-0 backdrop-blur-xs shadow-xs">
+              <i data-lucide="gift" class="w-5 h-5 sm:w-6 sm:h-6 text-rose-200"></i>
+            </div>
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-display leading-tight">
+              Compras & Regalos
+            </h1>
+          </div>
+          <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed pl-1">
+            Souvenirs de Claromecó, artesanías, indumentaria de playa, recuerdos, mallas y regalos de vacaciones.
+          </p>
+        </div>
+
+        <!-- Botón de Volver al Inicio -->
+        <div class="shrink-0 self-start md:self-auto">
+          <a 
+            href="/" 
+            class="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 active:scale-95 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-2xl border border-white/20 backdrop-blur-xs transition shadow-2xs group cursor-pointer"
+            title="Volver a la página principal de Estoy en Claro"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform"></i>
+            <span>Volver al Inicio</span>
+          </a>
+        </div>
+      </section>
+
+      
+
+      <!-- Buscador de la Categoría con sugerencias rápidas -->
+      <section class="bg-white rounded-2xl border border-slate-200/90 p-3 sm:p-4 shadow-xs space-y-3">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <!-- Input interactivo de búsqueda -->
+          <div class="relative flex-1">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <i data-lucide="search" class="w-4 h-4 text-rose-600"></i>
+            </div>
+            <input 
+              id="categoria-buscador-input" 
+              type="text" 
+              placeholder="Buscar en Compras y Regalería (ej. souvenirs, mallas, sombrillas, bazar, ropa)..." 
+              class="w-full pl-10 pr-9 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition"
+              autocomplete="off"
+            />
+            <button 
+              id="categoria-buscador-clear" 
+              type="button"
+              class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
+              title="Limpiar búsqueda"
+            >
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- Botón para buscar en toda la guía -->
+          <button 
+            data-open-search 
+            class="hidden sm:inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold px-3.5 py-2.5 rounded-xl transition shrink-0 cursor-pointer"
+            title="Buscar en todos los rubros de Claromecó"
+          >
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-sky-600"></i>
+            <span>Buscar en toda la guía</span>
+          </button>
+        </div>
+
+        <!-- Chips de sugerencias del rubro -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-0.5 scrollbar-none text-[11px]">
+          <span class="text-slate-400 font-medium shrink-0 flex items-center gap-1 mr-1">
+            <i data-lucide="sparkles" class="w-3 h-3 text-amber-500"></i>
+            Sugeridos:
+          </span>
+          <button type="button" data-search-chip="souvenirs claromecó" class="bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-600 px-2.5 py-1 rounded-lg transition font-medium cursor-pointer shrink-0">Souvenirs Claromecó</button>
+          <button type="button" data-search-chip="artículos de playa" class="bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-600 px-2.5 py-1 rounded-lg transition font-medium cursor-pointer shrink-0">Artículos de Playa</button>
+          <button type="button" data-search-chip="mallas e indumentaria" class="bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-600 px-2.5 py-1 rounded-lg transition font-medium cursor-pointer shrink-0">Mallas e Indumentaria</button>
+          <button type="button" data-search-chip="artesanías" class="bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-600 px-2.5 py-1 rounded-lg transition font-medium cursor-pointer shrink-0">Artesanías</button>
+          <button type="button" data-search-chip="bazar" class="bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-600 px-2.5 py-1 rounded-lg transition font-medium cursor-pointer shrink-0">Bazar</button>
+        </div>
+      </section>
+
+      <!-- Filtros de Subcategorías (Pills) -->
+      <section class="space-y-3">
+        <div id="categoria-subcategorias-filtro" class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+          <!-- Inyectado dinámicamente vía app.js -->
+        </div>
+      </section>
+
+      <!-- Grilla de Comercios -->
+      <section id="categoria-comercios-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></section>
+    </main>
+
+    <!-- FOOTER, BARRA MÓVIL Y MODALES COMPARTIDOS -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Data and Application Scripts (Vanilla JS) -->
+    <script src=/data/comercios.js></script>
+    <script src=/js/app.js></script>
+  </body>
+</html>

@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Directorio de Categorías y Rubros | Estoy en Claro</title>
+    <meta name="description" content="Directorio completo de comercios y servicios en Claromecó y Dunamar organizado en las 8 categorías oficiales." />
+    <meta property="og:title" content="Directorio de Rubros en Claromecó | Estoy en Claro" />
+    <meta property="og:description" content="Explorá los 8 rubros comerciales de Claromecó y Dunamar." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    <meta name="theme-color" content="#0284c7" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+              display: ['Outfit', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen flex flex-col pb-20 md:pb-0">
+
+    <!-- HEADER / NAVBAR COMPARTIDO -->
+    <div id="header-placeholder"></div>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <nav class="flex items-center gap-2 text-xs text-slate-500">
+        <a href="/" class="hover:text-slate-900">Inicio</a>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        <span class="text-slate-800 font-bold">Directorio de Rubros</span>
+      </nav>
+
+      <section class="bg-gradient-to-br from-sky-900 via-sky-800 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-lg space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="space-y-2 max-w-2xl">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-white/20 text-white flex items-center justify-center shrink-0 backdrop-blur-xs shadow-xs">
+                <i data-lucide="grid" class="w-5 h-5 sm:w-6 sm:h-6 text-cyan-300"></i>
+              </div>
+              <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-display leading-tight">
+                Directorio de Rubros Comerciales
+              </h1>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-200 leading-relaxed pl-1">
+              Elegí una categoría para explorar los comercios, prestadores y servicios de Claromecó y Dunamar.
+            </p>
+          </div>
+
+          <!-- Botón Volver al Inicio -->
+          <div class="shrink-0 self-start md:self-auto">
+            <a 
+              href="/" 
+              class="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 active:scale-95 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-2xl border border-white/20 backdrop-blur-xs transition shadow-2xs group cursor-pointer"
+              title="Volver a la página principal de Estoy en Claro"
+            >
+              <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform"></i>
+              <span>Volver al Inicio</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Buscador rápido de categorías o comercios -->
+        <div class="pt-2">
+          <div class="relative max-w-xl">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <i data-lucide="search" class="w-4 h-4 text-cyan-400"></i>
+            </div>
+            <input 
+              id="directorio-buscador-input" 
+              type="text" 
+              placeholder="Filtrar rubros (ej. gastronomía, farmacia, pesca, cabañas)..." 
+              class="w-full pl-10 pr-28 py-3 bg-white/10 hover:bg-white/15 focus:bg-white text-white focus:text-slate-900 placeholder-slate-300 focus:placeholder-slate-400 border border-white/20 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 backdrop-blur-xs transition shadow-inner"
+            />
+            <button 
+              data-open-search 
+              type="button" 
+              class="absolute inset-y-1.5 right-1.5 px-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-xl flex items-center gap-1 transition shadow-xs cursor-pointer"
+            >
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+              <span class="hidden sm:inline">Buscar todo</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Grilla de las 8 Categorías Oficiales -->
+      <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- 1. Gastronomía -->
+        <a href="/categorias/gastronomia.html" class="directorio-categoria-card p-5 rounded-3xl bg-white border border-slate-200 hover:border-amber-500 hover:shadow-md transition flex flex-col justify-between group">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-105 transition">
+              <i data-lucide="utensils" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="font-bold text-slate-900 text-base group-hover:text-amber-600">1. Gastronomía</h2>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Parrillas a la leña, restobares, pizzerías, pastas, cafeterías y heladerías artesanales.</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-amber-600 mt-4 flex items-center gap-1">Ver comercios &rarr;</span>
+        </a>
+
+        <!-- 2. Alojamiento -->
+        <a href="/categorias/alojamiento.html" class="directorio-categoria-card p-5 rounded-3xl bg-white border border-slate-200 hover:border-sky-500 hover:shadow-md transition flex flex-col justify-between group">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center group-hover:scale-105 transition">
+              <i data-lucide="hotel" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="font-bold text-slate-900 text-base group-hover:text-sky-600">2. Alojamiento</h2>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Cabañas en el bosque de Dunamar, hoteles céntricos, hosterías y complejos de playa.</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-sky-600 mt-4 flex items-center gap-1">Ver alojamientos &rarr;</span>
+        </a>
+
+        <!-- 3. Inmobiliarias y Alquileres -->
+        <a href="/categorias/inmobiliarias_alquileres.html" class="directorio-categoria-card p-5 rounded-3xl bg-white border border-slate-200 hover:border-blue-500 hover:shadow-md transition flex flex-col justify-between group">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-105 transition">
+              <i data-lucide="building-2" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="font-bold text-slate-900 text-base group-hover:text-blue-600">3. Inmobiliarias & Alq.</h2>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Alquileres temporarios de temporada, venta de casas, terrenos en Dunamar y tasaciones.</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-blue-600 mt-4 flex items-center gap-1">Ver inmobiliarias &rarr;</span>
+        </a>
+
+        <!-- 4. Almacenes y Kioscos -->
+        <a href="/categorias/almacenes_kioscos.html" class="directorio-categoria-card p-5 rounded-3xl bg-white border border-slate-200 hover:border-emerald-500 hover:shadow-md transition flex flex-col justify-between group">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition">
+              <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="font-bold text-slate-900 text-base group-hover:text-emerald-600">4. Almacenes y Kioscos</h2>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Supermercados, panaderías, carnicerías, almacenes y kioscos 24 horas.</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-emerald-600 mt-4 flex items-center gap-1">Ver almacenes &rarr;</span>
+        </a>
+
+        <!-- 5. Servicios y Oficios -->
+        <a href="/categorias/servicios_oficios.html" class="directorio-categoria-card p-5 rounded-3xl bg-white border border-slate-200 hover:border-indigo-500 hover:shadow-md transition flex flex-col justify-between group">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:scale-105 transition">
+              <i data-lucide="wrench" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="font-bold text-slate-900 text-base group-hover:text-indigo-600">5. Servicios y Oficios</h2>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Ferreterías, auxilios 4x4 en arena, gomerías, electricistas, plomeros y veterinarias.</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-indigo-600 mt-4 flex items-center gap-1">Ver servicios &rarr;</span>
+        </a>
+
+        <!-- 6. Compras & Regalos -->
+        <a href="/categorias/compras_regaleria.html" class="directorio-categoria-card p-5 rounded-3xl bg-white border border-slate-200 hover:border-rose-500 hover:shadow-md transition flex flex-col justify-between group">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center group-hover:scale-105 transition">
+              <i data-lucide="gift" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="font-bold text-slate-900 text-base group-hover:text-rose-600">6. Compras & Regalos</h2>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Souvenirs de Claromecó, artesanías, ropa de playa, mallas, juguetes y bazar.</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-rose-600 mt-4 flex items-center gap-1">Ver locales &rarr;</span>
+        </a>
+
+        <!-- 7. Comercios en General -->
+        <a href="/categorias/comercios_gral.html" class="directorio-categoria-card p-5 rounded-3xl bg-white border border-slate-200 hover:border-slate-700 hover:shadow-md transition flex flex-col justify-between group">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-700 flex items-center justify-center group-hover:scale-105 transition">
+              <i data-lucide="store" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="font-bold text-slate-900 text-base group-hover:text-slate-900">7. Comercios en General</h2>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Casas de pesca, venta de carnadas, librerías, diarios, revistas y rubros varios.</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-slate-700 mt-4 flex items-center gap-1">Ver comercios &rarr;</span>
+        </a>
+
+        <!-- 8. Turismo y Ocio -->
+        <a href="/categorias/turismo_deportes.html" class="directorio-categoria-card p-5 rounded-3xl bg-white border border-slate-200 hover:border-cyan-500 hover:shadow-md transition flex flex-col justify-between group">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center group-hover:scale-105 transition">
+              <i data-lucide="compass" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="font-bold text-slate-900 text-base group-hover:text-cyan-600">8. Turismo y Ocio</h2>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Alquiler de kayaks en el arroyo, paseos guiados, canchas de pádel, fútbol 5 y paradores de playa.</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-cyan-600 mt-4 flex items-center gap-1">Ver actividades &rarr;</span>
+        </a>
+      </section>
+
+    </main>
+
+    <!-- FOOTER, BARRA MÓVIL Y MODALES COMPARTIDOS -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Data and Application Scripts (Vanilla JS) -->
+    <script src=/data/comercios.js></script>
+    <script src=/js/app.js></script>
+  </body>
+</html>
