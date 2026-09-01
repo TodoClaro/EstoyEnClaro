@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 3. Configurar eventos de modales y componentes interactivos
   initSearchModal();
   initMerchantModal();
+  initStoryModal();
   initUrgenciasModal();
+  initAvisosSection();
   initDynamicPromos();
   initRecommendedCarousel();
   initCategoryPage();
@@ -299,6 +301,575 @@ function initMerchantModal() {
 }
 
 // --------------------------------------------------------------------
+// 2.1 Modal de Historias Verticales (9:16) - Plan Oro / Premium
+// --------------------------------------------------------------------
+let storyAnimFrame = null;
+let storyStartTime = 0;
+const STORY_DURATION_MS = 7000; // 7 segundos
+let storyElapsed = 0;
+let storyIsPaused = false;
+
+function ensureStoryModalInDom() {
+  let modal = document.getElementById('story-modal');
+  if (!modal) {
+    const div = document.createElement('div');
+    div.innerHTML = `
+      <div id="story-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-6 overflow-hidden">
+        <div id="story-card-box" class="relative w-full max-w-[340px] sm:max-w-[375px] aspect-[9/16] max-h-[88vh] rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-slate-950 flex flex-col justify-between select-none animate-in fade-in zoom-in-95 duration-200">
+          <div class="absolute top-0 left-0 right-0 z-30 p-3.5 pt-4 flex flex-col gap-2.5 bg-gradient-to-b from-black/85 via-black/40 to-transparent">
+            <div class="w-full h-1 bg-white/30 rounded-full overflow-hidden">
+              <div id="story-progress-bar" class="h-full bg-white rounded-full w-0"></div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div id="story-logo-container" class="p-0.5 rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-amber-300 shadow-sm shrink-0">
+                  <div class="p-0.5 bg-slate-900 rounded-full">
+                    <img id="story-merchant-logo" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=150" alt="Comercio" class="w-7 h-7 rounded-full object-cover">
+                  </div>
+                </div>
+                <div class="leading-tight text-white drop-shadow">
+                  <div class="flex items-center gap-1.5">
+                    <span id="story-merchant-name" class="font-extrabold text-xs sm:text-sm text-white truncate max-w-[170px]">Comercio</span>
+                    <span id="story-plan-badge" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.2 rounded font-mono uppercase tracking-tighter shadow-xs">Oro</span>
+                  </div>
+                  <span id="story-badge-time" class="text-[10px] text-amber-200 font-medium">Promo Vigente · 7 seg</span>
+                </div>
+              </div>
+              <button id="story-close-btn" class="w-8 h-8 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition border border-white/20 cursor-pointer" title="Cerrar Historia">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+          <div class="absolute inset-0 z-10 bg-slate-950 flex items-center justify-center overflow-hidden">
+            <img id="story-image" src="" alt="Historia de Comercio" class="w-full h-full object-cover">
+          </div>
+          <div class="relative z-30 p-4 pt-12 pb-4 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent flex flex-col gap-2.5 mt-auto">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span id="story-promo-badge" class="bg-amber-500 text-white text-[10px] font-black px-2 py-0.5 rounded-md shadow-xs flex items-center gap-1">
+                  <i data-lucide="tag" class="w-3 h-3"></i>
+                  <span id="story-promo-discount">20% OFF</span>
+                </span>
+                <span id="story-promo-range" class="text-[10px] font-bold text-amber-200 bg-black/40 border border-amber-400/30 px-2 py-0.5 rounded-md">
+                  Vigente
+                </span>
+              </div>
+              <h3 id="story-promo-title" class="font-extrabold text-white text-sm sm:text-base leading-snug drop-shadow line-clamp-2">
+                Título de la promo
+              </h3>
+              <p id="story-promo-desc" class="text-[11px] sm:text-xs text-slate-200 line-clamp-2 leading-relaxed drop-shadow">
+                Descripción de la promoción
+              </p>
+            </div>
+            <a id="story-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer" class="w-full bg-emerald-600/95 hover:bg-emerald-600 active:scale-98 backdrop-blur-md text-white font-extrabold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-xl border border-emerald-400/30 cursor-pointer">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              <span>Reservar por WhatsApp</span>
+            </a>
+            <div id="story-merchant-link-container" class="text-center pt-0.5">
+              <a id="story-merchant-link" href="#" class="text-[11px] font-semibold text-slate-300 hover:text-white underline underline-offset-2 transition">
+                Ver ficha completa del comercio &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(div.firstElementChild);
+    modal = document.getElementById('story-modal');
+  }
+  return modal;
+}
+
+window.openStoryModal = (data) => {
+  if (!data) return;
+  const modal = ensureStoryModalInDom();
+  if (!modal) return;
+
+  const imgEl = document.getElementById('story-image');
+  const logoEl = document.getElementById('story-merchant-logo');
+  const nameEl = document.getElementById('story-merchant-name');
+  const planBadgeEl = document.getElementById('story-plan-badge');
+  const badgeTimeEl = document.getElementById('story-badge-time');
+  const discountEl = document.getElementById('story-promo-discount');
+  const rangeEl = document.getElementById('story-promo-range');
+  const titleEl = document.getElementById('story-promo-title');
+  const descEl = document.getElementById('story-promo-desc');
+  const waBtn = document.getElementById('story-whatsapp-btn');
+  const merchantLinkContainer = document.getElementById('story-merchant-link-container');
+  const merchantLink = document.getElementById('story-merchant-link');
+  const progressBar = document.getElementById('story-progress-bar');
+  const logoContainer = document.getElementById('story-logo-container');
+
+  const { comercio, promo, imagen_historia_url, is_aviso, aviso } = data;
+
+  if (is_aviso && aviso) {
+    // ----------------------------------------------------
+    // HISTORIA DE AVISO (Institucional o Novedad de terceros)
+    // ----------------------------------------------------
+    const isInst = Boolean(aviso.institucional);
+    if (imgEl) imgEl.src = aviso.imagen_historia_url || '';
+    if (logoEl) {
+      logoEl.src = isInst 
+        ? 'https://images.unsplash.com/photo-1577495508048-b635879837f1?w=150' 
+        : 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=150';
+    }
+    if (nameEl) nameEl.textContent = isInst ? 'Claromecó Oficial' : 'Evento en Claro';
+    if (planBadgeEl) {
+      planBadgeEl.textContent = isInst ? 'Institucional' : 'Novedad';
+      planBadgeEl.className = isInst 
+        ? 'bg-sky-500 text-white text-[9px] font-black px-1.5 py-0.2 rounded font-mono uppercase tracking-tighter shadow-xs' 
+        : 'bg-rose-500 text-white text-[9px] font-black px-1.5 py-0.2 rounded font-mono uppercase tracking-tighter shadow-xs';
+    }
+    if (logoContainer) {
+      logoContainer.className = isInst
+        ? 'p-0.5 rounded-full bg-gradient-to-tr from-sky-400 via-indigo-500 to-cyan-300 shadow-sm shrink-0'
+        : 'p-0.5 rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-amber-300 shadow-sm shrink-0';
+    }
+    if (badgeTimeEl) badgeTimeEl.textContent = 'Aviso Vigente · 7 seg';
+    if (discountEl) discountEl.textContent = isInst ? 'Oficial' : 'Destacado';
+    if (rangeEl) rangeEl.textContent = 'Vigente hoy';
+    if (titleEl) titleEl.textContent = aviso.titulo;
+    if (descEl) descEl.textContent = aviso.descripcion_corta;
+
+    // Botón externo
+    if (waBtn) {
+      waBtn.href = aviso.link_externo || '#';
+      waBtn.innerHTML = `
+        <i data-lucide="external-link" class="w-4 h-4"></i>
+        <span>${isInst ? 'Más información oficial' : 'Ver más'}</span>
+      `;
+      waBtn.className = isInst
+        ? 'w-full bg-sky-600 hover:bg-sky-500 active:scale-98 backdrop-blur-md text-white font-extrabold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-xl border border-sky-400/30 cursor-pointer'
+        : 'w-full bg-gradient-to-r from-amber-500 to-rose-600 hover:opacity-95 active:scale-98 backdrop-blur-md text-white font-extrabold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-xl border border-amber-400/30 cursor-pointer';
+    }
+
+    // Ocultar link a ficha interna
+    if (merchantLinkContainer) merchantLinkContainer.classList.add('hidden');
+  } else {
+    // ----------------------------------------------------
+    // HISTORIA DE COMERCIO (Plan Oro / Promociones)
+    // ----------------------------------------------------
+    const imageUrl = imagen_historia_url || (promo && promo.imagen_historia_url) || (comercio && comercio.imagen_historia_url) || (comercio && comercio.imagen_portada_url);
+
+    if (imgEl) imgEl.src = imageUrl || '';
+    if (logoEl) logoEl.src = (comercio && (comercio.logo_url || comercio.imagen_portada_url)) || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=150';
+    if (nameEl) nameEl.textContent = (comercio && comercio.nombre) || 'Comercio';
+    if (planBadgeEl) {
+      planBadgeEl.textContent = 'Oro';
+      planBadgeEl.className = 'bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.2 rounded font-mono uppercase tracking-tighter shadow-xs';
+    }
+    if (logoContainer) {
+      logoContainer.className = 'p-0.5 rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-amber-300 shadow-sm shrink-0';
+    }
+    if (badgeTimeEl) badgeTimeEl.textContent = 'Promo Vigente · 7 seg';
+    
+    if (discountEl) {
+      if (promo && promo.descuento_porcentaje) {
+        discountEl.textContent = `${promo.descuento_porcentaje}% OFF`;
+      } else {
+        discountEl.textContent = 'Beneficio Exclusivo';
+      }
+    }
+
+    if (rangeEl) rangeEl.textContent = (promo && promo.rango_texto) || 'Vigente';
+    if (titleEl) titleEl.textContent = (promo && promo.titulo) || (comercio && comercio.nombre) || 'Promoción';
+    if (descEl) descEl.textContent = (promo && promo.descripcion) || (comercio && comercio.descripcion) || '';
+
+    if (merchantLink && comercio) {
+      merchantLink.href = `/comercios/${comercio.slug}.html`;
+    }
+    if (merchantLinkContainer) merchantLinkContainer.classList.remove('hidden');
+
+    if (waBtn && comercio) {
+      const pTitle = (promo && promo.titulo) ? promo.titulo : 'su promoción';
+      const waText = `Hola ${comercio.nombre}, vi su Historia/Promo "${pTitle}" en Estoy en Claro y quería consultarles/reservar.`;
+      waBtn.href = `https://wa.me/${comercio.whatsapp || '5492983552010'}?text=${encodeURIComponent(waText)}`;
+      waBtn.innerHTML = `
+        <i data-lucide="message-circle" class="w-4 h-4"></i>
+        <span>Reservar por WhatsApp</span>
+      `;
+      waBtn.className = 'w-full bg-emerald-600/95 hover:bg-emerald-600 active:scale-98 backdrop-blur-md text-white font-extrabold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-xl border border-emerald-400/30 cursor-pointer';
+    }
+  }
+
+  if (progressBar) {
+    progressBar.style.width = '0%';
+  }
+
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+  document.body.classList.add('overflow-hidden');
+
+  if (window.lucide) window.lucide.createIcons();
+
+  // Animación del progreso de 7 segundos
+  cancelAnimationFrame(storyAnimFrame);
+  storyStartTime = performance.now();
+  storyElapsed = 0;
+  storyIsPaused = false;
+
+  function tickStory(now) {
+    if (!storyIsPaused) {
+      const delta = now - storyStartTime;
+      storyElapsed += delta;
+      storyStartTime = now;
+
+      const progress = Math.min(storyElapsed / STORY_DURATION_MS, 1);
+      if (progressBar) {
+        progressBar.style.width = `${progress * 100}%`;
+      }
+
+      if (storyElapsed >= STORY_DURATION_MS) {
+        closeStoryModal();
+        return;
+      }
+    } else {
+      storyStartTime = now;
+    }
+    storyAnimFrame = requestAnimationFrame(tickStory);
+  }
+
+  storyAnimFrame = requestAnimationFrame(tickStory);
+};
+
+window.openStoryModalById = (comercioId, promoId) => {
+  if (typeof COMERCIOS_DATA === 'undefined') return;
+  const comercio = COMERCIOS_DATA.find(c => c.id === comercioId || c.slug === comercioId);
+  if (!comercio) return;
+  
+  let promo = null;
+  if (promoId && comercio.promos) {
+    promo = comercio.promos.find(p => p.id === promoId);
+  }
+  if (!promo && comercio.promos && comercio.promos.length > 0) {
+    promo = comercio.promos[0];
+  }
+  if (!promo) {
+    promo = {
+      titulo: comercio.nombre,
+      descripcion: comercio.descripcion,
+      descuento_porcentaje: null,
+      rango_texto: 'Vigente'
+    };
+  }
+
+  const storyUrl = (promo && promo.imagen_historia_url) || comercio.imagen_historia_url || comercio.imagen_portada_url;
+  
+  window.openStoryModal({
+    imagen_historia_url: storyUrl,
+    comercio,
+    promo
+  });
+};
+
+window.openStoryModalByAvisoId = (avisoId) => {
+  if (typeof AVISOS_DATA === 'undefined') return;
+  const aviso = AVISOS_DATA.find(a => a.id === avisoId);
+  if (!aviso) return;
+  window.openStoryModal({
+    is_aviso: true,
+    aviso
+  });
+};
+
+window.closeStoryModal = () => {
+  const modal = document.getElementById('story-modal');
+  cancelAnimationFrame(storyAnimFrame);
+  if (!modal) return;
+
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+  document.body.classList.remove('overflow-hidden');
+
+  const progressBar = document.getElementById('story-progress-bar');
+  if (progressBar) progressBar.style.width = '0%';
+};
+
+// --------------------------------------------------------------------
+// 2.5 Sección Independiente de Avisos / Novedades y Eventos
+// --------------------------------------------------------------------
+function initAvisosSection() {
+  const seccion = document.getElementById('seccion-avisos');
+  const grid = document.getElementById('avisos-grid');
+  if (!seccion || !grid) return;
+
+  const avisos = typeof obtenerAvisosActivosHoy === 'function'
+    ? obtenerAvisosActivosHoy()
+    : (typeof AVISOS_DATA !== 'undefined' ? AVISOS_DATA.filter(a => typeof avisoActivoHoy === 'function' ? avisoActivoHoy(a) : true) : []);
+
+  if (avisos.length === 0) {
+    seccion.classList.add('hidden');
+    return;
+  }
+
+  seccion.classList.remove('hidden');
+
+  grid.innerHTML = avisos.map(aviso => {
+    const isInst = Boolean(aviso.institucional);
+    const storyUrl = aviso.imagen_historia_url;
+
+    return `
+      <article 
+        onclick="openStoryModalByAvisoId('${aviso.id}')"
+        class="relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group cursor-pointer border ${isInst ? 'border-sky-300/80 ring-2 ring-sky-400/20' : 'border-amber-300/80 ring-2 ring-amber-400/25'} bg-slate-950"
+        style="min-height: 250px;"
+      >
+        <!-- Imagen de fondo con gradiente optimizado para legibilidad -->
+        <div class="absolute inset-0 z-0">
+          <img src="${storyUrl}" alt="${aviso.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" loading="lazy">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-slate-950/40"></div>
+        </div>
+
+        <!-- Header de la tarjeta -->
+        <div class="relative z-10 p-4 sm:p-5 space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <div class="p-0.5 rounded-full ${isInst ? 'bg-gradient-to-tr from-sky-400 via-indigo-500 to-cyan-300' : 'bg-gradient-to-tr from-amber-400 via-rose-500 to-amber-300'} shadow-md shrink-0">
+                <div class="w-7 h-7 bg-slate-900 rounded-full flex items-center justify-center text-white">
+                  <i data-lucide="${isInst ? 'landmark' : 'sparkles'}" class="w-3.5 h-3.5 ${isInst ? 'text-sky-400' : 'text-amber-400'}"></i>
+                </div>
+              </div>
+              <span class="inline-flex items-center gap-1 ${isInst ? 'bg-sky-600/90 text-white' : 'bg-gradient-to-r from-amber-500 to-rose-500 text-white'} text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-xs tracking-tight uppercase">
+                ${isInst ? 'Institucional' : 'Novedad'}
+              </span>
+            </div>
+
+            <span class="text-[10px] font-bold text-slate-200 bg-white/10 border border-white/15 px-2 py-0.5 rounded-md backdrop-blur-xs">
+              Vigente hoy
+            </span>
+          </div>
+
+          <div>
+            <h3 class="font-extrabold text-white text-base group-hover:text-amber-300 transition line-clamp-2 drop-shadow-md">
+              ${aviso.titulo}
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-200 mt-1 leading-relaxed line-clamp-2 drop-shadow">
+              ${aviso.descripcion_corta}
+            </p>
+          </div>
+        </div>
+
+        <!-- Footer de acciones -->
+        <div class="relative z-10 p-4 sm:p-5 pt-0 flex items-center justify-between gap-2 border-t border-white/15 mt-2">
+          <button 
+            type="button"
+            onclick="event.stopPropagation(); openStoryModalByAvisoId('${aviso.id}')"
+            class="text-xs font-extrabold text-white bg-white/20 hover:bg-white/30 backdrop-blur-xs px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer"
+          >
+            <i data-lucide="play-circle" class="w-3.5 h-3.5 ${isInst ? 'text-sky-300' : 'text-amber-400'}"></i>
+            <span>Ver Historia 9:16</span>
+          </button>
+
+          <a 
+            href="${aviso.link_externo}" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            onclick="event.stopPropagation()"
+            class="inline-flex items-center gap-1.5 ${isInst ? 'bg-sky-600 hover:bg-sky-500' : 'bg-emerald-600 hover:bg-emerald-500'} text-white text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-xs"
+          >
+            <span>Ver más</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function initStoryModal() {
+  const modal = ensureStoryModalInDom();
+  if (!modal) return;
+
+  const closeBtn = document.getElementById('story-close-btn');
+  const cardBox = document.getElementById('story-card-box');
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeStoryModal();
+    });
+  }
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeStoryModal();
+    }
+  });
+
+  if (cardBox) {
+    const pauseStory = () => {
+      storyIsPaused = true;
+    };
+    const resumeStory = () => {
+      storyIsPaused = false;
+      storyStartTime = performance.now();
+    };
+
+    cardBox.addEventListener('pointerdown', pauseStory);
+    cardBox.addEventListener('pointerup', resumeStory);
+    cardBox.addEventListener('pointercancel', resumeStory);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+      closeStoryModal();
+    }
+  });
+}
+
+// Helper para renderizar tarjetas de promos (soporta tarjeta estándar y tarjeta Historia 9:16)
+function renderPromoCard(promo, comercio, isCarousel = false) {
+  const storyUrl = promo.imagen_historia_url || comercio.imagen_historia_url;
+  const isPlanOro = comercio.plan_id === 'oro' || comercio.plan_id === 'premium';
+  const hasStory = isPlanOro && Boolean(storyUrl);
+
+  const cardBaseClass = isCarousel 
+    ? "carousel-promo-item flex-none w-[88vw] sm:w-[50vw] md:w-[calc(50%-10px)] lg:w-[calc(33.333%-12px)] snap-start"
+    : "";
+
+  if (hasStory) {
+    return `
+      <div class="${cardBaseClass}">
+        <article 
+          onclick="openStoryModalById('${comercio.id}', '${promo.id || ''}')"
+          class="h-full relative rounded-3xl overflow-hidden shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group cursor-pointer border border-amber-300/80 ring-2 ring-amber-400/25"
+          style="min-height: 240px;"
+        >
+          <!-- Fondo de la tarjeta con imagen de historia (object-fit: cover, recortada al tamaño de tarjeta) -->
+          <div class="absolute inset-0 z-0 bg-slate-950">
+            <img src="${storyUrl}" alt="${promo.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90">
+            <!-- Gradiente oscuro para máxima legibilidad tipográfica -->
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-slate-950/40"></div>
+          </div>
+
+          <!-- Contenido superpuesto -->
+          <div class="relative z-10 p-4 sm:p-5 space-y-3">
+            <!-- Barra superior con Anillo de historia en el logo + Badges -->
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <!-- Anillo de color degradado estilo Historia de Instagram -->
+                <div class="p-0.5 rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-amber-300 shadow-md shrink-0">
+                  <div class="p-0.5 bg-slate-900 rounded-full">
+                    <img src="${comercio.logo_url || comercio.imagen_portada_url}" alt="${comercio.nombre}" class="w-7 h-7 rounded-full object-cover">
+                  </div>
+                </div>
+                <!-- Badge indicador de Historia interactiva -->
+                <span class="inline-flex items-center gap-1 bg-gradient-to-r from-amber-500 to-rose-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-xs tracking-tight">
+                  <i data-lucide="play" class="w-2.5 h-2.5 fill-white"></i> Historia 9:16
+                </span>
+              </div>
+
+              <!-- Badge Descuento -->
+              <span class="inline-flex items-center gap-1 bg-amber-500 text-white text-xs font-black px-2.5 py-0.5 rounded-lg shadow-xs">
+                <i data-lucide="tag" class="w-3 h-3"></i>
+                ${promo.descuento_porcentaje ? `${promo.descuento_porcentaje}% OFF` : 'Beneficio'}
+              </span>
+            </div>
+
+            <div>
+              <h3 class="font-extrabold text-white text-base group-hover:text-amber-300 transition line-clamp-2 drop-shadow-md">
+                ${promo.titulo}
+              </h3>
+              <p class="text-xs sm:text-sm text-slate-200 mt-1 leading-relaxed line-clamp-2 drop-shadow">
+                ${promo.descripcion}
+              </p>
+            </div>
+
+            <div class="pt-2 border-t border-white/15 flex items-center justify-between text-white">
+              <span class="font-black text-xs sm:text-sm truncate drop-shadow flex items-center gap-1.5">
+                <span class="text-amber-400 font-bold">★</span> ${comercio.nombre}
+              </span>
+              <span class="text-[10px] font-bold text-amber-200 bg-white/10 px-2 py-0.5 rounded backdrop-blur-xs">
+                ${promo.rango_texto || 'Vigente'}
+              </span>
+            </div>
+          </div>
+
+          <!-- Footer con Acciones -->
+          <div class="relative z-10 p-4 sm:p-5 pt-0 flex items-center justify-between gap-2 border-t border-white/15 mt-2">
+            <button 
+              type="button"
+              onclick="event.stopPropagation(); openStoryModalById('${comercio.id}', '${promo.id || ''}')"
+              class="text-xs font-extrabold text-white bg-white/20 hover:bg-white/30 backdrop-blur-xs px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer"
+            >
+              <i data-lucide="play-circle" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span>Ver Historia</span>
+            </button>
+
+            <div class="flex items-center gap-2">
+              <a 
+                href="/comercios/${comercio.slug}.html" 
+                onclick="event.stopPropagation()"
+                class="text-xs font-bold text-slate-300 hover:text-white transition"
+              >
+                Ficha &rarr;
+              </a>
+              ${comercio.whatsapp ? `
+                <a 
+                  href="https://wa.me/${comercio.whatsapp}?text=${encodeURIComponent(`Hola ${comercio.nombre}, vi su historia/promo "${promo.titulo}" en Estoy en Claro y quería consultarles.`)}" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  onclick="event.stopPropagation()" 
+                  class="inline-flex items-center gap-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-xs"
+                >
+                  <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                  <span>WhatsApp</span>
+                </a>
+              ` : ''}
+            </div>
+          </div>
+        </article>
+      </div>
+    `;
+  }
+
+  // Tarjeta Estándar
+  return `
+    <div class="${cardBaseClass}">
+      <article 
+        onclick="window.location.href='/comercios/${comercio.slug}.html'"
+        class="h-full bg-white rounded-2xl border border-amber-300/90 ring-1 ring-amber-100 p-5 shadow-2xs hover:shadow-md transition flex flex-col justify-between group cursor-pointer"
+      >
+        <div class="space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <span class="inline-flex items-center gap-1.5 bg-amber-500 text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-xs">
+              <i data-lucide="tag" class="w-3.5 h-3.5"></i>
+              ${promo.descuento_porcentaje ? `${promo.descuento_porcentaje}% OFF` : 'Beneficio'}
+            </span>
+            <span class="text-xs font-bold text-amber-900 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md truncate max-w-[140px]">
+              ${promo.rango_texto || 'Vigente'}
+            </span>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-slate-900 text-base group-hover:text-amber-800 transition line-clamp-2">
+              ${promo.titulo}
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed line-clamp-2">${promo.descripcion}</p>
+          </div>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+            <span class="font-black text-slate-900 text-sm sm:text-base truncate">${comercio.nombre}</span>
+          </div>
+        </div>
+        <div class="pt-4 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+          <span class="text-xs sm:text-sm font-bold text-sky-600 group-hover:text-sky-700 inline-flex items-center gap-1">
+            <span>Ver Ficha</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+          </span>
+          ${comercio.whatsapp ? `
+            <a href="https://wa.me/${comercio.whatsapp}?text=${encodeURIComponent(`Hola ${comercio.nombre}, vi su promo "${promo.titulo}" en Estoy en Claro y quería hacerles una consulta.`)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-xs">
+              <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+              <span>Aprovechar</span>
+            </a>
+          ` : ''}
+        </div>
+      </article>
+    </div>
+  `;
+}
+
+// --------------------------------------------------------------------
 // 3. Renderizado y Carrusel de "Promociones y Eventos Vigentes"
 // - PC: 2-3 tarjetas visibles, flechas prev/next a los costados
 // - Móvil: 1 tarjeta visible (snap), auto-avance 5s, flechas, swipe táctil y dots
@@ -322,45 +893,7 @@ function initDynamicPromos() {
         </div>
       `;
     } else {
-      promosGrid.innerHTML = promos.map(({ promo, comercio }) => `
-        <article 
-          onclick="window.location.href='/comercios/${comercio.slug}.html'"
-          class="bg-white rounded-2xl border border-amber-300 ring-1 ring-amber-100 p-5 shadow-2xs hover:shadow-md transition flex flex-col justify-between group cursor-pointer"
-        >
-          <div class="space-y-3">
-            <div class="flex items-center justify-between gap-2">
-              <span class="inline-flex items-center gap-1.5 bg-amber-500 text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-xs">
-                <i data-lucide="tag" class="w-3.5 h-3.5"></i>
-                ${promo.descuento_porcentaje ? `${promo.descuento_porcentaje}% OFF` : 'Beneficio'}
-              </span>
-              <span class="text-xs font-bold text-amber-900 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-md">
-                ${promo.rango_texto || 'Vigente'}
-              </span>
-            </div>
-            <div>
-              <h3 class="font-extrabold text-slate-900 text-base group-hover:text-amber-800 transition">
-                ${promo.titulo}
-              </h3>
-              <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">${promo.descripcion}</p>
-            </div>
-            <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
-              <span class="font-black text-slate-900 text-sm sm:text-base">${comercio.nombre}</span>
-            </div>
-          </div>
-          <div class="pt-4 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
-            <span class="text-xs sm:text-sm font-bold text-sky-600 group-hover:text-sky-700 inline-flex items-center gap-1">
-              <span>Ver Ficha</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
-            </span>
-            ${comercio.whatsapp ? `
-              <a href="https://wa.me/${comercio.whatsapp}?text=${encodeURIComponent(`Hola ${comercio.nombre}, vi su promo "${promo.titulo}" en Estoy en Claro y quería hacerles una consulta.`)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl transition shadow-xs">
-                <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
-                <span>Aprovechar</span>
-              </a>
-            ` : ''}
-          </div>
-        </article>
-      `).join('');
+      promosGrid.innerHTML = promos.map(({ promo, comercio }) => renderPromoCard(promo, comercio, false)).join('');
     }
   }
 
@@ -377,47 +910,7 @@ function initDynamicPromos() {
 
     const isDesktop = () => window.innerWidth >= 768;
 
-    promosCarouselTrack.innerHTML = promos.map(({ promo, comercio }) => `
-      <div class="carousel-promo-item flex-none w-[88vw] sm:w-[50vw] md:w-[calc(50%-10px)] lg:w-[calc(33.333%-12px)] snap-start">
-        <article 
-          onclick="window.location.href='/comercios/${comercio.slug}.html'"
-          class="h-full bg-white rounded-2xl border border-amber-300/90 ring-1 ring-amber-100 p-5 shadow-2xs hover:shadow-md transition flex flex-col justify-between group cursor-pointer"
-        >
-          <div class="space-y-3">
-            <div class="flex items-center justify-between gap-2">
-              <span class="inline-flex items-center gap-1.5 bg-amber-500 text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-xs">
-                <i data-lucide="tag" class="w-3.5 h-3.5"></i>
-                ${promo.descuento_porcentaje ? `${promo.descuento_porcentaje}% OFF` : 'Beneficio'}
-              </span>
-              <span class="text-xs font-bold text-amber-900 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md truncate max-w-[140px]">
-                ${promo.rango_texto || 'Vigente'}
-              </span>
-            </div>
-            <div>
-              <h3 class="font-extrabold text-slate-900 text-base group-hover:text-amber-800 transition line-clamp-2">
-                ${promo.titulo}
-              </h3>
-              <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed line-clamp-2">${promo.descripcion}</p>
-            </div>
-            <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
-              <span class="font-black text-slate-900 text-sm sm:text-base truncate">${comercio.nombre}</span>
-            </div>
-          </div>
-          <div class="pt-4 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
-            <span class="text-xs sm:text-sm font-bold text-sky-600 group-hover:text-sky-700 inline-flex items-center gap-1">
-              <span>Ver Ficha</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
-            </span>
-            ${comercio.whatsapp ? `
-              <a href="https://wa.me/${comercio.whatsapp}?text=${encodeURIComponent(`Hola ${comercio.nombre}, vi su promo "${promo.titulo}" en Estoy en Claro y quería consultarles.`)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-xs">
-                <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
-                <span>Aprovechar</span>
-              </a>
-            ` : ''}
-          </div>
-        </article>
-      </div>
-    `).join('');
+    promosCarouselTrack.innerHTML = promos.map(({ promo, comercio }) => renderPromoCard(promo, comercio, true)).join('');
 
     // Dots indicators para vista móvil
     if (dotsContainer) {
@@ -558,15 +1051,28 @@ function initRecommendedCarousel() {
         <div>
           <div class="h-40 sm:h-44 bg-slate-900 relative overflow-hidden">
             <img src="${c.imagen_portada_url || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600'}" alt="${c.nombre}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-            ${c.fijado_home ? `
-              <span class="absolute top-3 left-3 bg-amber-500 text-slate-950 text-xs font-black px-2.5 py-0.5 rounded-md shadow-xs flex items-center gap-1">
+            ${(c.plan_id === 'oro' || c.plan_id === 'premium' || c.fijado_home) ? `
+              <span class="absolute top-3 left-3 bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 text-xs font-black px-2.5 py-0.5 rounded-md shadow-xs flex items-center gap-1">
                 ★ Recomendado
               </span>
-            ` : `
-              <span class="absolute top-3 left-3 bg-sky-600 text-white text-xs font-bold px-2.5 py-0.5 rounded shadow-xs">
+            ` : (c.plan_id === 'plata' || c.plan_id === 'destacado_cat') ? `
+              <span class="absolute top-3 left-3 bg-slate-200 text-slate-800 border border-slate-300 text-xs font-bold px-2.5 py-0.5 rounded shadow-xs">
                 Destacado
               </span>
-            `}
+            ` : ''}
+            ${(c.imagen_historia_url && (c.plan_id === 'oro' || c.plan_id === 'premium')) ? `
+              <button 
+                type="button"
+                onclick="event.stopPropagation(); openStoryModalById('${c.id}')"
+                class="absolute top-3 right-3 p-0.5 rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-amber-300 shadow-md hover:scale-105 transition cursor-pointer z-10"
+                title="Ver Historia vertical 9:16"
+              >
+                <div class="bg-slate-950/90 hover:bg-slate-950 text-white text-[10px] font-black px-2 py-0.5 rounded-full flex items-center gap-1">
+                  <i data-lucide="play" class="w-2.5 h-2.5 fill-white"></i>
+                  <span>Historia</span>
+                </div>
+              </button>
+            ` : ''}
             <span class="absolute bottom-3 left-3 bg-black/70 backdrop-blur-xs text-white text-xs font-bold px-2 py-0.5 rounded">
               ${c.subcategoria}
             </span>
@@ -951,9 +1457,17 @@ function initCategoryPage() {
               <span class="bg-white/95 backdrop-blur-xs text-slate-900 text-xs font-extrabold px-2.5 py-1 rounded-lg shadow-xs">
                 ${comercio.subcategoria}
               </span>
-              ${comercio.fijado_home ? `
-                <span class="bg-amber-500 text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-xs flex items-center gap-1">
-                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Recomendado
+              ${(comercio.plan_id === 'oro' || comercio.plan_id === 'premium' || comercio.fijado_home) ? `
+                <span class="bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 text-xs font-black px-2.5 py-1 rounded-lg shadow-xs flex items-center gap-1">
+                  <i data-lucide="star" class="w-3.5 h-3.5 fill-slate-950 text-slate-950"></i> Oro
+                </span>
+              ` : (comercio.plan_id === 'plata' || comercio.plan_id === 'destacado_cat') ? `
+                <span class="bg-slate-200/95 backdrop-blur-xs text-slate-800 text-xs font-black px-2.5 py-1 rounded-lg shadow-xs border border-slate-300 flex items-center gap-1">
+                  <i data-lucide="award" class="w-3.5 h-3.5 text-slate-700"></i> Plata
+                </span>
+              ` : comercio.plan_id === 'bronce' ? `
+                <span class="bg-amber-900/90 backdrop-blur-xs text-amber-100 text-xs font-bold px-2 py-1 rounded-lg border border-amber-700/60 flex items-center gap-1">
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-300"></i> Bronce
                 </span>
               ` : ''}
             </div>

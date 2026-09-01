@@ -3,41 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>Parrilla y Pescadería El Faro en Claromecó | Menú, Ubicación y WhatsApp</title>
-    <meta name="description" content="Parrilla El Faro en Calle 9 entre 26 y 28, Claromecó. Asado al asador, costillares, achuras, pescados frescos de la costa y postres caseros." />
+    <title>Parrilla El Faro en Claromecó | Info, WhatsApp y Ubicación</title>
+    <meta name="description" content="El asado tradicional de Claromecó: costillares a la leña, vacío, achuras frescas, pescados de la costa y postres caseros." />
     <meta property="og:title" content="Parrilla El Faro | Claromecó" />
-    <meta property="og:description" content="El mejor asado y pesca del día en Claromecó. Carnes a la leña y porciones familiares." />
-    <meta property="og:image" content="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1200&auto=format&fit=crop&q=80" />
-    <meta property="og:type" content="restaurant" />
+    <meta property="og:description" content="El asado tradicional de Claromecó: costillares a la leña, vacío, achuras frescas, pescados de la costa y postres caseros." />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1000&amp;auto=format&amp;fit=crop&amp;q=80" />
+    <meta property="og:type" content="place" />
     <meta property="og:locale" content="es_AR" />
     <meta name="theme-color" content="#0284c7" />
 
     <!-- Datos Estructurados JSON-LD Schema.org -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Restaurant",
-      "name": "Parrilla y Pescadería El Faro",
-      "description": "El asado tradicional de Claromecó: costillares a la leña, vacío, achuras frescas, pescados de la costa y postres caseros de la casa.",
-      "image": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1000&auto=format&fit=crop&q=80",
-      "url": "https://estoyenclaro.com.ar/comercios/parrilla-el-faro.html",
-      "telephone": "+542983483344",
-      "servesCuisine": ["Parrilla Argentina", "Pescados de Costa", "Minutas", "Postres Caseros"],
-      "priceRange": "$$",
-      "address": {
+{
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Parrilla El Faro",
+    "description": "El asado tradicional de Claromecó: costillares a la leña, vacío, achuras frescas, pescados de la costa y postres caseros.",
+    "image": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1000&auto=format&fit=crop&q=80",
+    "url": "https://estoyenclaro.com.ar/comercios/parrilla-el-faro.html",
+    "telephone": "+5402983483344",
+    "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Calle 9 entre 26 y 28",
+        "streetAddress": "Calle 9 entre 26 y 28, Claromecó",
         "addressLocality": "Claromecó",
         "addressRegion": "Buenos Aires",
         "postalCode": "B7505",
         "addressCountry": "AR"
-      },
-      "geo": {
+    },
+    "geo": {
         "@type": "GeoCoordinates",
         "latitude": -38.8559,
         "longitude": -60.0725
-      }
     }
+}
     </script>
 
     <!-- Fuentes Google -->
@@ -66,79 +64,173 @@
     <!-- HEADER / NAVBAR COMPARTIDO -->
     <div id="header-placeholder"></div>
 
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-6">
-
-      <!-- PORTADA & CABECERA -->
-      <section class="bg-white rounded-3xl border border-slate-200/90 overflow-hidden shadow-sm">
-        <div class="h-64 sm:h-80 w-full bg-slate-100 relative">
-          <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1200&auto=format&fit=crop&q=80" alt="Parrilla El Faro" class="w-full h-full object-cover" />
+    <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-4 space-y-6">
+      <article class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+        <!-- PORTADA -->
+        <div class="relative h-64 sm:h-80 bg-slate-900">
+          <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1000&amp;auto=format&amp;fit=crop&amp;q=80" alt="Parrilla El Faro" class="w-full h-full object-cover">
           <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+
+          <div class="absolute top-4 left-4 right-4 flex items-center justify-between">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 text-xs font-black px-3 py-1 rounded-lg shadow-md ring-1 ring-amber-300 flex items-center gap-1.5"><i data-lucide="star" class="w-3.5 h-3.5 fill-slate-950 text-slate-950"></i><span>Plan Oro · Recomendado</span></span>
+              <span class="bg-black/60 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-lg">
+                Gastronomía
+              </span>
+            </div>
+
+            <button onclick="compartirFicha()" class="bg-white/90 backdrop-blur-md hover:bg-white text-slate-900 p-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md cursor-pointer transition">
+              <i data-lucide="share-2" class="w-4 h-4 text-cyan-600"></i>
+              <span class="hidden sm:inline">Compartir</span>
+            </button>
+          </div>
+
+          <div class="absolute bottom-4 left-4 right-4 text-white space-y-1">
+            <span class="text-xs font-bold text-cyan-300 uppercase tracking-wider">
+              Parrillas y Asadores
+            </span>
+            <h1 class="text-2xl sm:text-4xl font-extrabold font-display">
+              Parrilla El Faro
+            </h1>
+            <div class="flex items-center gap-1.5 text-xs text-slate-200 pt-0.5">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-cyan-400"></i>
+              <span>Calle 9 entre 26 y 28, Claromecó</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACCIONES RÁPIDAS: LINKS REALES Y FUNCIONALES EN TODOS LOS PLANES -->
+        <div class="p-4 sm:p-6 bg-slate-900 text-white flex flex-wrap items-center justify-between gap-2.5">
           
-          <div class="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-4">
-            <div class="space-y-1 text-white">
-              <div class="flex items-center gap-2 flex-wrap">
-                <span class="bg-sky-500 text-white text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">Destacado</span>
-                <span class="bg-black/40 backdrop-blur-md text-slate-200 text-xs font-semibold px-2.5 py-0.5 rounded-full">Parrilla • Carnes y Pescados</span>
+          <a href="https://wa.me/5492983441190?text=Hola%20Parrilla%20El%20Faro%2C%20los%20encontr%C3%A9%20en%20Estoy%20en%20Claro." target="_blank" rel="noopener noreferrer" class="flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 px-5 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-md">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            <span>WhatsApp Directo</span>
+          </a>
+          
+          <a href="tel:02983483344" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 border border-slate-700" title="Llamar">
+            <i data-lucide="phone" class="w-4 h-4 text-emerald-400"></i>
+            <span class="hidden sm:inline">Llamar (02983 48-3344)</span>
+            <span class="sm:hidden">Llamar</span>
+          </a>
+          
+          <a href="https://www.google.com/maps/search/?api=1&query=-38.8559,-60.0725" target="_blank" rel="noopener noreferrer" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-xs">
+            <i data-lucide="navigation" class="w-4 h-4 text-cyan-200"></i>
+            <span>Cómo Llegar (GPS)</span>
+          </a>
+        </div>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="p-5 sm:p-8 space-y-8">
+          
+          <!-- PROMO ACTIVA -->
+          <div class="bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-2xl p-4 sm:p-5 shadow-sm space-y-2">
+            <div class="flex items-center gap-2">
+              <span class="bg-black/30 text-white text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded">
+                🔥 Promo Destacada
+              </span>
+              <span class="text-xs font-bold text-amber-100">15% OFF</span>
+            </div>
+            <h2 class="text-base sm:text-lg font-extrabold font-display">
+              Parrillada Completa con Vino Artesanal de Regalo
+            </h2>
+            <p class="text-xs sm:text-sm text-amber-50 leading-relaxed">
+              Incluye tira de asado, vacío, chorizo, morcilla, ensalada mixta y vino artesanal los fines de semana.
+            </p>
+            
+          <!-- MINIATURA INTERACTIVA DE HISTORIA VERTICAL (PLAN ORO) -->
+          <div class="mt-4 pt-4 border-t border-white/25 flex flex-col sm:flex-row items-center gap-4 bg-black/20 backdrop-blur-xs p-3.5 rounded-2xl">
+            <button 
+              type="button"
+              onclick="openStoryModalById('c-parrilla-faro', 'p-2')"
+              class="relative group cursor-pointer shrink-0 focus:outline-none"
+              title="Tocar para ver Historia vertical (9:16)"
+            >
+              <!-- Anillo de color degradado estilo Instagram -->
+              <div class="p-1 rounded-2xl bg-gradient-to-tr from-amber-400 via-rose-500 to-amber-300 shadow-md group-hover:scale-105 transition-transform duration-200">
+                <div class="w-16 h-28 sm:w-20 sm:h-36 rounded-xl overflow-hidden relative bg-slate-900">
+                  <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1080&amp;h=1920&amp;auto=format&amp;fit=crop&amp;q=80" alt="Historia Parrilla El Faro" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-black/35 group-hover:bg-black/15 transition flex items-center justify-center">
+                    <div class="w-8 h-8 rounded-full bg-white/90 text-slate-900 flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+                      <i data-lucide="play" class="w-4 h-4 fill-slate-900 ml-0.5"></i>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight">Parrilla y Pescadería El Faro</h1>
-              <p class="text-xs sm:text-sm text-slate-200 flex items-center gap-1.5">
-                <i data-lucide="map-pin" class="w-4 h-4 text-sky-400"></i>
-                <span>Calle 9 entre 26 y 28, Claromecó Centro</span>
+              <span class="absolute -bottom-1 -right-1 bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-xs uppercase tracking-tighter">
+                9:16
+              </span>
+            </button>
+
+            <div class="space-y-1 text-center sm:text-left flex-1">
+              <div class="flex items-center justify-center sm:justify-start gap-1.5 text-amber-200 text-xs font-bold">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i>
+                <span>Historia Oficial Plan Oro</span>
+              </div>
+              <h4 class="font-extrabold text-white text-xs sm:text-sm">
+                Formato vertical interactivo con reservas
+              </h4>
+              <p class="text-[11px] text-amber-100/90 leading-relaxed">
+                Tocá la miniatura para ver la historia completa (con barra de 7s) o enviar WhatsApp directo.
+              </p>
+              <button 
+                type="button"
+                onclick="openStoryModalById('c-parrilla-faro', 'p-2')"
+                class="inline-flex items-center gap-1.5 mt-1 text-xs font-extrabold text-white bg-black/40 hover:bg-black/60 border border-white/30 px-3.5 py-1.5 rounded-xl transition cursor-pointer"
+              >
+                <i data-lucide="play-circle" class="w-3.5 h-3.5 text-amber-300"></i>
+                <span>Abrir Historia Completa</span>
+              </button>
+            </div>
+          </div>
+          </div>
+
+          <!-- SOBRE EL COMERCIO -->
+          <section class="space-y-3">
+            <h2 class="text-lg font-bold text-slate-900 font-display">Sobre Nosotros</h2>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              El asado tradicional de Claromecó: costillares a la leña, vacío, achuras frescas, pescados de la costa y postres caseros.
+            </p>
+          </section>
+
+          
+          <!-- GALERÍA DE FOTOS (PLANES BRONCE, PLATA Y ORO) -->
+          <section class="space-y-3 pt-2">
+            <h2 class="text-lg font-bold text-slate-900 font-display flex items-center gap-2">
+              <i data-lucide="image" class="w-5 h-5 text-sky-600"></i>
+              <span>Galería de Fotos</span>
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              
+                <div class="rounded-2xl overflow-hidden bg-slate-100 aspect-4/3 border border-slate-200">
+                  <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&amp;auto=format&amp;fit=crop&amp;q=80" alt="Foto de Parrilla El Faro" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
+                </div>
+              
+            </div>
+          </section>
+
+          <!-- DATOS CLAVE -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 text-xs">
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/70 space-y-1">
+              <span class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Horarios de Atención</span>
+              <p class="font-bold text-slate-800">Mediodía 12:00 a 15:30 hs / Noche 20:30 a 00:30 hs</p>
+            </div>
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/70 space-y-1">
+              <span class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Zona / Ubicación</span>
+              <p class="font-bold text-slate-800">Claromecó Centro</p>
+            </div>
+            
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/70 space-y-1">
+              <span class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Instagram Oficial</span>
+              <p class="font-bold text-sky-700">
+                <a href="https://instagram.com/parrillaelfaro.claro" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center gap-1">
+                  <span>@parrillaelfaro.claro</span>
+                  <i data-lucide="external-link" class="w-3 h-3 text-sky-500"></i>
+                </a>
               </p>
             </div>
           </div>
         </div>
-
-        <!-- ACTIONS BAR -->
-        <div class="p-6 bg-white flex flex-wrap items-center justify-between gap-4 border-b border-slate-100">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-800 font-extrabold text-lg">
-              EF
-            </div>
-            <div>
-              <div class="text-xs font-bold text-slate-900">Abierto hoy</div>
-              <div class="text-xs text-slate-500">12:00 a 15:30 y 20:30 a 00:30 hs</div>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-3 w-full sm:w-auto">
-            <a href="https://wa.me/5492983441190?text=Hola%20Parrilla%20El%20Faro!%20Los%20vi%20en%20Estoy%20en%20Claro%20y%20quer%C3%ADa%20hacerles%20una%20consulta." target="_blank" rel="noopener noreferrer" class="flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold px-5 py-3 rounded-2xl flex items-center justify-center gap-2 shadow-sm transition">
-              <i data-lucide="message-circle" class="w-4 h-4"></i>
-              <span>Enviar WhatsApp</span>
-            </a>
-            <a href="tel:02983483344" class="p-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition" title="Llamar">
-              <i data-lucide="phone" class="w-4 h-4"></i>
-            </a>
-          </div>
-        </div>
-
-        <!-- DESCRIPCIÓN & DETALLES -->
-        <div class="p-6 sm:p-8 space-y-6">
-          <div>
-            <h2 class="text-sm font-extrabold uppercase tracking-wider text-slate-400 mb-2">Sobre Nosotros</h2>
-            <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
-              El asado tradicional de Claromecó: costillares a la leña, vacío al corte, achuras frescas, ensaladas completas y la pesca del día a las brasas cuando hay buena captura. Atendido por sus dueños, un clásico para compartir con amigos y familia.
-            </p>
-          </div>
-
-          <!-- DATOS CLAVE -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-100 text-xs">
-            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/70 space-y-1">
-              <span class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Especialidad</span>
-              <p class="font-bold text-slate-800">Costillares a la leña y corvina a las brasas</p>
-            </div>
-            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/70 space-y-1">
-              <span class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Ubicación</span>
-              <p class="font-bold text-slate-800">Calle 9 e/ 26 y 28 (Centro)</p>
-            </div>
-            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/70 space-y-1">
-              <span class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Contacto</span>
-              <p class="font-bold text-slate-800">02983 48-3344</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      </article>
     </main>
 
     <!-- FOOTER, BARRA MÓVIL Y MODALES COMPARTIDOS -->

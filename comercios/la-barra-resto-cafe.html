@@ -3,41 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>La Barra Restó & Café en Claromecó | Menú, Fotos y WhatsApp</title>
-    <meta name="description" content="La Barra Restó & Café en Costanera y Calle 28, Claromecó. Especialidad en pescados frescos del mar, rabas, pastas caseras y tablas de mariscos." />
-    <meta property="og:title" content="La Barra Restó & Café | Claromecó" />
-    <meta property="og:description" content="Pescados frescos, rabas crocantes y promos de verano frente al mar en Claromecó." />
-    <meta property="og:image" content="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&auto=format&fit=crop&q=80" />
-    <meta property="og:type" content="restaurant" />
+    <title>La Barra Restó &amp; Café en Claromecó | Info, WhatsApp y Ubicación</title>
+    <meta name="description" content="Pescados frescos del Atlántico, rabas crocantes, pastas caseras y tablas de mariscos con vista panorámica a la costanera." />
+    <meta property="og:title" content="La Barra Restó &amp; Café | Claromecó" />
+    <meta property="og:description" content="Pescados frescos del Atlántico, rabas crocantes, pastas caseras y tablas de mariscos con vista panorámica a la costanera." />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1000&amp;auto=format&amp;fit=crop&amp;q=80" />
+    <meta property="og:type" content="place" />
     <meta property="og:locale" content="es_AR" />
     <meta name="theme-color" content="#0284c7" />
 
     <!-- Datos Estructurados JSON-LD Schema.org -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Restaurant",
-      "name": "La Barra Restó & Café",
-      "description": "Especialistas en pescados frescos del Atlántico, rabas crocantes, pastas caseras y tablas de mariscos con vista panorámica a la costanera de Claromecó.",
-      "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1000&auto=format&fit=crop&q=80",
-      "url": "https://estoyenclaro.com.ar/comercios/la-barra-resto-cafe.html",
-      "telephone": "+542983481234",
-      "servesCuisine": ["Pescados y Mariscos", "Pastas Caseras", "Minutas", "Cafetería"],
-      "priceRange": "$$",
-      "address": {
+{
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "La Barra Restó & Café",
+    "description": "Pescados frescos del Atlántico, rabas crocantes, pastas caseras y tablas de mariscos con vista panorámica a la costanera.",
+    "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1000&auto=format&fit=crop&q=80",
+    "url": "https://estoyenclaro.com.ar/comercios/la-barra-resto-cafe.html",
+    "telephone": "+5402983481234",
+    "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Costanera y Calle 28",
+        "streetAddress": "Costanera y Calle 28, Claromecó",
         "addressLocality": "Claromecó",
         "addressRegion": "Buenos Aires",
         "postalCode": "B7505",
         "addressCountry": "AR"
-      },
-      "geo": {
+    },
+    "geo": {
         "@type": "GeoCoordinates",
         "latitude": -38.8612,
         "longitude": -60.0715
-      }
     }
+}
     </script>
 
     <!-- Fuentes Google -->
@@ -68,125 +66,173 @@
 
     <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-4 space-y-6">
       <article class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+        <!-- PORTADA -->
         <div class="relative h-64 sm:h-80 bg-slate-900">
-          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&auto=format&fit=crop&q=80" alt="La Barra Restó & Café" class="w-full h-full object-cover">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1000&amp;auto=format&amp;fit=crop&amp;q=80" alt="La Barra Restó &amp; Café" class="w-full h-full object-cover">
           <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
 
           <div class="absolute top-4 left-4 right-4 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="bg-amber-500 text-white text-xs font-black px-3 py-1 rounded-lg shadow-md flex items-center gap-1">
-                <i data-lucide="star" class="w-3.5 h-3.5 fill-white"></i>
-                <span>Destacado Premium</span>
-              </span>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 text-xs font-black px-3 py-1 rounded-lg shadow-md ring-1 ring-amber-300 flex items-center gap-1.5"><i data-lucide="star" class="w-3.5 h-3.5 fill-slate-950 text-slate-950"></i><span>Plan Oro · Recomendado</span></span>
               <span class="bg-black/60 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-lg">
                 Gastronomía
               </span>
             </div>
 
             <button onclick="compartirFicha()" class="bg-white/90 backdrop-blur-md hover:bg-white text-slate-900 p-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md cursor-pointer transition">
-              <i data-lucide="share-2" class="w-4 h-4 text-sky-600"></i>
+              <i data-lucide="share-2" class="w-4 h-4 text-cyan-600"></i>
               <span class="hidden sm:inline">Compartir</span>
             </button>
           </div>
 
           <div class="absolute bottom-4 left-4 right-4 text-white space-y-1">
             <span class="text-xs font-bold text-cyan-300 uppercase tracking-wider">
-              Restaurante & Minutas · Costanera
+              Restaurantes y Minutas
             </span>
             <h1 class="text-2xl sm:text-4xl font-extrabold font-display">
-              La Barra Restó & Café
+              La Barra Restó &amp; Café
             </h1>
             <div class="flex items-center gap-1.5 text-xs text-slate-200 pt-0.5">
               <i data-lucide="map-pin" class="w-3.5 h-3.5 text-cyan-400"></i>
-              <span>Costanera y Calle 28, Claromecó, Buenos Aires</span>
+              <span>Costanera y Calle 28, Claromecó</span>
             </div>
           </div>
         </div>
 
-        <div class="p-4 sm:p-6 bg-slate-900 text-white grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-          <a href="https://wa.me/5492983552010?text=Hola%20La%20Barra%20Rest%C3%B3%2C%20los%20encontr%C3%A9%20en%20Estoy%20en%20Claro." target="_blank" rel="noopener noreferrer" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-md">
+        <!-- ACCIONES RÁPIDAS: LINKS REALES Y FUNCIONALES EN TODOS LOS PLANES -->
+        <div class="p-4 sm:p-6 bg-slate-900 text-white flex flex-wrap items-center justify-between gap-2.5">
+          
+          <a href="https://wa.me/5492983552010?text=Hola%20La%20Barra%20Rest%C3%B3%20%26%20Caf%C3%A9%2C%20los%20encontr%C3%A9%20en%20Estoy%20en%20Claro." target="_blank" rel="noopener noreferrer" class="flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 px-5 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-md">
             <i data-lucide="message-circle" class="w-4 h-4"></i>
-            <span>Pedir por WhatsApp</span>
+            <span>WhatsApp Directo</span>
           </a>
-          <a href="tel:02983481234" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 border border-slate-700">
+          
+          <a href="tel:02983481234" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 border border-slate-700" title="Llamar">
             <i data-lucide="phone" class="w-4 h-4 text-emerald-400"></i>
-            <span>Llamar al Local</span>
+            <span class="hidden sm:inline">Llamar (02983 48-1234)</span>
+            <span class="sm:hidden">Llamar</span>
           </a>
-          <a href="https://www.google.com/maps/search/?api=1&query=-38.8612,-60.0715" target="_blank" rel="noopener noreferrer" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2">
+          
+          <a href="https://www.google.com/maps/search/?api=1&query=-38.8612,-60.0715" target="_blank" rel="noopener noreferrer" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-xs">
             <i data-lucide="navigation" class="w-4 h-4 text-cyan-200"></i>
             <span>Cómo Llegar (GPS)</span>
           </a>
         </div>
 
+        <!-- CONTENIDO PRINCIPAL -->
         <div class="p-5 sm:p-8 space-y-8">
-          <!-- PROMO HOY -->
+          
+          <!-- PROMO ACTIVA -->
           <div class="bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-2xl p-4 sm:p-5 shadow-sm space-y-2">
             <div class="flex items-center gap-2">
               <span class="bg-black/30 text-white text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded">
-                🔥 Promo de Hoy
+                🔥 Promo Destacada
               </span>
               <span class="text-xs font-bold text-amber-100">20% OFF</span>
             </div>
             <h2 class="text-base sm:text-lg font-extrabold font-display">
-              2x1 en Cerveza Artesanal y Rabas al 20% OFF
+              20% OFF en Tabla de Pescados &amp; Rabas de la Costa
             </h2>
             <p class="text-xs sm:text-sm text-amber-50 leading-relaxed">
-              Happy Hour de verano todos los días de 19:00 a 21:00 hs abonando en efectivo o débito en nuestro salón frente al mar.
+              Válido para almuerzos y cenas mencionando la guía Estoy en Claro.
             </p>
+            
+          <!-- MINIATURA INTERACTIVA DE HISTORIA VERTICAL (PLAN ORO) -->
+          <div class="mt-4 pt-4 border-t border-white/25 flex flex-col sm:flex-row items-center gap-4 bg-black/20 backdrop-blur-xs p-3.5 rounded-2xl">
+            <button 
+              type="button"
+              onclick="openStoryModalById('c-la-barra', 'p-1')"
+              class="relative group cursor-pointer shrink-0 focus:outline-none"
+              title="Tocar para ver Historia vertical (9:16)"
+            >
+              <!-- Anillo de color degradado estilo Instagram -->
+              <div class="p-1 rounded-2xl bg-gradient-to-tr from-amber-400 via-rose-500 to-amber-300 shadow-md group-hover:scale-105 transition-transform duration-200">
+                <div class="w-16 h-28 sm:w-20 sm:h-36 rounded-xl overflow-hidden relative bg-slate-900">
+                  <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=1080&amp;h=1920&amp;auto=format&amp;fit=crop&amp;q=80" alt="Historia La Barra Restó &amp; Café" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-black/35 group-hover:bg-black/15 transition flex items-center justify-center">
+                    <div class="w-8 h-8 rounded-full bg-white/90 text-slate-900 flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+                      <i data-lucide="play" class="w-4 h-4 fill-slate-900 ml-0.5"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span class="absolute -bottom-1 -right-1 bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-xs uppercase tracking-tighter">
+                9:16
+              </span>
+            </button>
+
+            <div class="space-y-1 text-center sm:text-left flex-1">
+              <div class="flex items-center justify-center sm:justify-start gap-1.5 text-amber-200 text-xs font-bold">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i>
+                <span>Historia Oficial Plan Oro</span>
+              </div>
+              <h4 class="font-extrabold text-white text-xs sm:text-sm">
+                Formato vertical interactivo con reservas
+              </h4>
+              <p class="text-[11px] text-amber-100/90 leading-relaxed">
+                Tocá la miniatura para ver la historia completa (con barra de 7s) o enviar WhatsApp directo.
+              </p>
+              <button 
+                type="button"
+                onclick="openStoryModalById('c-la-barra', 'p-1')"
+                class="inline-flex items-center gap-1.5 mt-1 text-xs font-extrabold text-white bg-black/40 hover:bg-black/60 border border-white/30 px-3.5 py-1.5 rounded-xl transition cursor-pointer"
+              >
+                <i data-lucide="play-circle" class="w-3.5 h-3.5 text-amber-300"></i>
+                <span>Abrir Historia Completa</span>
+              </button>
+            </div>
+          </div>
           </div>
 
+          <!-- SOBRE EL COMERCIO -->
           <section class="space-y-3">
-            <h2 class="text-lg font-bold text-slate-900 font-display">Sobre La Barra Restó & Café</h2>
+            <h2 class="text-lg font-bold text-slate-900 font-display">Sobre Nosotros</h2>
             <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
-              Especialistas en pescados frescos del Atlántico, rabas crocantes, pastas caseras y tablas de mariscos con vista panorámica a la costanera.
+              Pescados frescos del Atlántico, rabas crocantes, pastas caseras y tablas de mariscos con vista panorámica a la costanera.
             </p>
           </section>
 
-          <section class="space-y-3">
-            <h2 class="text-lg font-bold text-slate-900 font-display">Galería de Fotos</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div class="h-44 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
-                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&auto=format&fit=crop&q=80" alt="Salón Principal" class="w-full h-full object-cover">
-              </div>
-              <div class="h-44 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
-                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80" alt="Mariscos" class="w-full h-full object-cover">
-              </div>
-              <div class="h-44 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
-                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80" alt="Pastas" class="w-full h-full object-cover">
-              </div>
+          
+          <!-- GALERÍA DE FOTOS (PLANES BRONCE, PLATA Y ORO) -->
+          <section class="space-y-3 pt-2">
+            <h2 class="text-lg font-bold text-slate-900 font-display flex items-center gap-2">
+              <i data-lucide="image" class="w-5 h-5 text-sky-600"></i>
+              <span>Galería de Fotos</span>
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              
+                <div class="rounded-2xl overflow-hidden bg-slate-100 aspect-4/3 border border-slate-200">
+                  <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&amp;auto=format&amp;fit=crop&amp;q=80" alt="Foto de La Barra Restó &amp; Café" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
+                </div>
+              
+                <div class="rounded-2xl overflow-hidden bg-slate-100 aspect-4/3 border border-slate-200">
+                  <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&amp;auto=format&amp;fit=crop&amp;q=80" alt="Foto de La Barra Restó &amp; Café" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
+                </div>
+              
             </div>
           </section>
 
-          <section class="p-4 rounded-2xl bg-sky-50/60 border border-sky-100 flex flex-wrap items-center justify-between gap-3">
-            <div class="space-y-0.5">
-              <span class="text-xs font-bold text-slate-900">Canales oficiales de La Barra:</span>
-              <p class="text-[11px] text-slate-500">Seguí las novedades y fotos diarias en sus redes.</p>
+          <!-- DATOS CLAVE -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 text-xs">
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/70 space-y-1">
+              <span class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Horarios de Atención</span>
+              <p class="font-bold text-slate-800">Todos los días de 11:30 a 16:00 y de 20:00 a 01:00 hs</p>
             </div>
-            <div class="flex items-center gap-2">
-              <a href="https://instagram.com/labarra.claromeco" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition">
-                <i data-lucide="instagram" class="w-4 h-4 text-pink-600"></i>
-                <span>@labarra.claromeco</span>
-              </a>
-              <a href="https://labarraclaromeco.com.ar" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition">
-                <i data-lucide="globe" class="w-4 h-4 text-sky-600"></i>
-                <span>Sitio Web</span>
-              </a>
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/70 space-y-1">
+              <span class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Zona / Ubicación</span>
+              <p class="font-bold text-slate-800">Claromecó Costanera</p>
             </div>
-          </section>
-
-          <section class="bg-slate-900 text-white rounded-3xl p-6 flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div class="space-y-2 text-center sm:text-left">
-              <div class="inline-flex items-center gap-1.5 bg-sky-500/20 text-sky-300 text-xs font-bold px-2.5 py-0.5 rounded-md">
-                <i data-lucide="qr-code" class="w-3.5 h-3.5"></i>
-                <span>Código QR Oficial</span>
-              </div>
-              <h2 class="text-lg sm:text-xl font-bold font-display">QR de Acceso Directo para Clientes</h2>
-              <p class="text-xs text-slate-300 max-w-md">Descargá o imprimí este código QR para colocar en las mesas.</p>
+            
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/70 space-y-1">
+              <span class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Instagram Oficial</span>
+              <p class="font-bold text-sky-700">
+                <a href="https://instagram.com/labarra.claromeco" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center gap-1">
+                  <span>@labarra.claromeco</span>
+                  <i data-lucide="external-link" class="w-3 h-3 text-sky-500"></i>
+                </a>
+              </p>
             </div>
-            <div class="bg-white p-3 rounded-2xl shadow-xl shrink-0">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://estoyenclaro.com.ar/comercios/la-barra-resto-cafe.html" alt="QR" class="w-36 h-36">
-            </div>
-          </section>
+          </div>
         </div>
       </article>
     </main>

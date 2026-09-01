@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS planes (
     destacado_categoria BOOLEAN NOT NULL DEFAULT false,
     destacado_home BOOLEAN NOT NULL DEFAULT false,
     permite_promos BOOLEAN NOT NULL DEFAULT false,
+    permite_imagen_historia BOOLEAN NOT NULL DEFAULT false,
     color_badge VARCHAR(30) DEFAULT 'slate',
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -50,7 +51,7 @@ CREATE TABLE IF NOT EXISTS comercios (
     lat NUMERIC(10, 7),
     lng NUMERIC(10, 7),
     horario VARCHAR(150) NOT NULL DEFAULT 'Consultar horario',
-    plan_id TEXT NOT NULL REFERENCES planes(id) ON DELETE RESTRICT DEFAULT 'basico',
+    plan_id TEXT NOT NULL REFERENCES planes(id) ON DELETE RESTRICT DEFAULT 'gratis',
     logo_url TEXT,
     imagen_portada_url TEXT,
     fotos TEXT[] DEFAULT '{}',
@@ -197,11 +198,12 @@ WHERE c.activo = true;
 -- ====================================================================
 
 -- Insertar Planes
-INSERT INTO planes (id, nombre, precio, muestra_redes, destacado_categoria, destacado_home, permite_promos, color_badge)
+INSERT INTO planes (id, nombre, precio, muestra_redes, destacado_categoria, destacado_home, permite_promos, permite_imagen_historia, color_badge)
 VALUES
-    ('basico', 'Plan Básico Gratuito', 0.00, false, false, false, false, 'slate'),
-    ('destacado_cat', 'Plan Destacado Categoría', 9500.00, true, true, false, false, 'sky'),
-    ('premium', 'Plan Destacado Premium & Promos', 18500.00, true, true, true, true, 'amber')
+    ('gratis', 'Plan Gratis', 0.00, false, false, false, false, false, 'slate'),
+    ('bronce', 'Plan Bronce', 5500.00, true, false, false, false, false, 'amber-700'),
+    ('plata', 'Plan Plata', 11500.00, true, true, false, true, false, 'slate-400'),
+    ('oro', 'Plan Oro', 22000.00, true, true, true, true, true, 'amber-400')
 ON CONFLICT (id) DO UPDATE SET
     nombre = EXCLUDED.nombre,
     precio = EXCLUDED.precio,
@@ -209,18 +211,20 @@ ON CONFLICT (id) DO UPDATE SET
     destacado_categoria = EXCLUDED.destacado_categoria,
     destacado_home = EXCLUDED.destacado_home,
     permite_promos = EXCLUDED.permite_promos,
+    permite_imagen_historia = EXCLUDED.permite_imagen_historia,
     color_badge = EXCLUDED.color_badge;
 
--- Insertar las 7 Categorías Oficiales de Claromecó y Dunamar
+-- Insertar las 8 Categorías Oficiales de Claromecó y Dunamar
 INSERT INTO categorias (id, nombre, orden, icono, subcategorias, color)
 VALUES
     ('gastronomia', 'Gastronomía', 1, 'utensils', ARRAY['Parrillas y Asadores', 'Pizzerías y Empanadas', 'Restaurantes y Minutas', 'Cafeterías y Desayunos', 'Heladerías Artesanales', 'Cervecerías y Hamburguesas', 'Pastas Caseras'], 'amber'),
     ('alojamiento', 'Alojamiento', 2, 'hotel', ARRAY['Cabañas en Dunamar', 'Hoteles y Hosterías', 'Casas y Deptos Temporarios', 'Campings y Complejos'], 'sky'),
-    ('almacenes_kioscos', 'Almacenes y Kioscos', 3, 'shopping-bag', ARRAY['Supermercados y Autoservicios', 'Kioscos 24hs y Bebidas', 'Panaderías y Confiterías', 'Carnicerías y Pescaderías', 'Verdulerías y Fruterías'], 'emerald'),
-    ('servicios_oficios', 'Servicios y Oficios', 4, 'wrench', ARRAY['Ferretería', 'Electricista', 'Plomero', 'Gasista', 'Cerrajero', 'Gomería', 'Construcción/Corralón', 'Inmobiliarias y alquileres de temporada', 'Veterinarias'], 'indigo'),
-    ('compras_regaleria', 'Compras y Regalería', 5, 'gift', ARRAY['Regalerías y Souvenirs', 'Indumentaria y Mallas', 'Artículos de Playa y Juguetes', 'Artesanías y Decoración', 'Bazar y Accesorios'], 'rose'),
-    ('comercios_gral', 'Comercios en Gral.', 6, 'store', ARRAY['Casas de pesca (venta de equipos)', 'Kioscos de diarios y revistas', 'Librerías y Fotocopias', 'Ópticas y Fotografía', 'Varios'], 'slate'),
-    ('turismo_deportes', 'Turismo y Deportes', 7, 'compass', ARRAY['Alquileres y excursiones (kayak, bicis, pesca embarcada)', 'Entretenimiento y paseos', 'Paradores de playa', 'Deportes (cancha de pádel, fútbol 5)'], 'cyan')
+    ('inmobiliarias_alquileres', 'Inmobiliarias y Alquileres', 3, 'building-2', ARRAY['Alquileres de Temporada', 'Venta de Casas y Chalets', 'Terrenos y Lotes en Dunamar', 'Tasaciones e Inversiones'], 'blue'),
+    ('almacenes_kioscos', 'Almacenes y Kioscos', 4, 'shopping-bag', ARRAY['Supermercados y Autoservicios', 'Kioscos 24hs y Bebidas', 'Panaderías y Confiterías', 'Carnicerías y Pescaderías', 'Verdulerías y Fruterías'], 'emerald'),
+    ('servicios_oficios', 'Servicios y Oficios', 5, 'wrench', ARRAY['Ferretería', 'Electricista', 'Plomero', 'Gasista', 'Cerrajero', 'Gomería', 'Construcción y Corralón', 'Veterinarias y Mascotas'], 'indigo'),
+    ('compras_regaleria', 'Compras y Regalería', 6, 'gift', ARRAY['Regalerías y Souvenirs', 'Indumentaria y Mallas', 'Artículos de Playa y Juguetes', 'Artesanías y Decoración', 'Bazar y Accesorios'], 'rose'),
+    ('comercios_gral', 'Comercios en Gral.', 7, 'store', ARRAY['Casas de Pesca y Carnada', 'Kioscos de Diarios y Revistas', 'Librerías e Impresiones', 'Ópticas y Fotografía', 'Varios y Distribución'], 'slate'),
+    ('turismo_deportes', 'Turismo y Deportes', 8, 'compass', ARRAY['Alquileres y Excursiones (Kayak, Bicis, Pesca Embarcada)', 'Entretenimiento y Paseos', 'Paradores de Playa', 'Deportes (Pádel, Fútbol 5, Surf)'], 'cyan')
 ON CONFLICT (id) DO UPDATE SET
     nombre = EXCLUDED.nombre,
     orden = EXCLUDED.orden,

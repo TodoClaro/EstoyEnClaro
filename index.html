@@ -85,6 +85,35 @@
         </div>
       </section>
 
+      <!-- SECCIÓN INDEPENDIENTE: ¿SABÍAS ESTO? — EVENTOS Y NOVEDADES (Solo si hay avisos vigentes) -->
+      <section id="seccion-avisos" class="space-y-3.5 hidden">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-indigo-600 via-sky-600 to-cyan-400 text-white flex items-center justify-center shadow-sm shrink-0">
+              <i data-lucide="sparkles" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 font-display tracking-tight">
+                  ¿Sabías esto? — Eventos y Novedades
+                </h2>
+                <span class="bg-indigo-50 text-indigo-700 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-indigo-200/80 hidden sm:inline-flex">
+                  Exclusivo Claromecó
+                </span>
+              </div>
+              <p class="text-xs text-slate-500 mt-0.5">
+                Comunicados oficiales, novedades de servicios y actividades especiales en Claromecó y Dunamar
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grilla de Avisos destacados (Se inyecta dinámicamente vía app.js) -->
+        <div id="avisos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
+          <!-- Dinámico -->
+        </div>
+      </section>
+
       <!-- 2. CATEGORÍAS COMPACTAS (Las 8 oficiales estrictas en formato chip/compacto) -->
       <section class="space-y-4">
         <div class="flex items-center justify-between">
