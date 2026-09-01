@@ -64,21 +64,21 @@ function generateHtmlPage(c) {
   const storyUrl = (activePromo && activePromo.imagen_historia_url) || c.imagen_historia_url;
 
   let storyThumbnailHtml = '';
-  // Historias verticales 9:16 (Solo Plan Oro)
+  // Historias / Promo vertical destacada (Solo Plan Oro)
   if (isOro && storyUrl) {
     storyThumbnailHtml = `
-          <!-- MINIATURA INTERACTIVA DE HISTORIA VERTICAL (PLAN ORO) -->
+          <!-- MINIATURA INTERACTIVA DE PROMO -->
           <div class="mt-4 pt-4 border-t border-white/25 flex flex-col sm:flex-row items-center gap-4 bg-black/20 backdrop-blur-xs p-3.5 rounded-2xl">
             <button 
               type="button"
               onclick="openStoryModalById('${c.id}', '${activePromo ? activePromo.id : ''}')"
               class="relative group cursor-pointer shrink-0 focus:outline-none"
-              title="Tocar para ver Historia vertical (9:16)"
+              title="Tocar para ver la promo completa"
             >
-              <!-- Anillo de color degradado estilo Instagram -->
+              <!-- Anillo de color degradado estilo historia -->
               <div class="p-1 rounded-2xl bg-gradient-to-tr from-amber-400 via-rose-500 to-amber-300 shadow-md group-hover:scale-105 transition-transform duration-200">
                 <div class="w-16 h-28 sm:w-20 sm:h-36 rounded-xl overflow-hidden relative bg-slate-900">
-                  <img src="${escapeHtml(storyUrl)}" alt="Historia ${escapeHtml(c.nombre)}" class="w-full h-full object-cover">
+                  <img src="${escapeHtml(storyUrl)}" alt="Promo ${escapeHtml(c.nombre)}" class="w-full h-full object-cover">
                   <div class="absolute inset-0 bg-black/35 group-hover:bg-black/15 transition flex items-center justify-center">
                     <div class="w-8 h-8 rounded-full bg-white/90 text-slate-900 flex items-center justify-center shadow-lg group-hover:scale-110 transition">
                       <i data-lucide="play" class="w-4 h-4 fill-slate-900 ml-0.5"></i>
@@ -86,29 +86,16 @@ function generateHtmlPage(c) {
                   </div>
                 </div>
               </div>
-              <span class="absolute -bottom-1 -right-1 bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-xs uppercase tracking-tighter">
-                9:16
-              </span>
             </button>
 
-            <div class="space-y-1 text-center sm:text-left flex-1">
-              <div class="flex items-center justify-center sm:justify-start gap-1.5 text-amber-200 text-xs font-bold">
-                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i>
-                <span>Historia Oficial Plan Oro</span>
-              </div>
-              <h4 class="font-extrabold text-white text-xs sm:text-sm">
-                Formato vertical interactivo con reservas
-              </h4>
-              <p class="text-[11px] text-amber-100/90 leading-relaxed">
-                Tocá la miniatura para ver la historia completa (con barra de 7s) o enviar WhatsApp directo.
-              </p>
+            <div class="space-y-2 text-center sm:text-left flex-1">
               <button 
                 type="button"
                 onclick="openStoryModalById('${c.id}', '${activePromo ? activePromo.id : ''}')"
-                class="inline-flex items-center gap-1.5 mt-1 text-xs font-extrabold text-white bg-black/40 hover:bg-black/60 border border-white/30 px-3.5 py-1.5 rounded-xl transition cursor-pointer"
+                class="inline-flex items-center gap-1.5 text-xs font-extrabold text-white bg-black/40 hover:bg-black/60 border border-white/30 px-3.5 py-2 rounded-xl transition cursor-pointer shadow-xs active:scale-98"
               >
-                <i data-lucide="play-circle" class="w-3.5 h-3.5 text-amber-300"></i>
-                <span>Abrir Historia Completa</span>
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i>
+                <span>Mirá la promo completa</span>
               </button>
             </div>
           </div>`;

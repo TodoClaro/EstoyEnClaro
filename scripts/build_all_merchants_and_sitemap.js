@@ -124,3 +124,13 @@ ${allUrls.map(u => `  <url>
 
 fs.writeFileSync(path.join(rootDir, 'sitemap.xml'), sitemapXml, 'utf8');
 console.log(`Successfully updated sitemap.xml with ${allUrls.length} URLs.`);
+
+// 4. Generate updated robots.txt
+const robotsTxt = `User-agent: *
+Allow: /
+
+Sitemap: ${baseUrl}/sitemap.xml
+`;
+
+fs.writeFileSync(path.join(rootDir, 'robots.txt'), robotsTxt, 'utf8');
+console.log(`Successfully generated robots.txt pointing to ${baseUrl}/sitemap.xml.`);

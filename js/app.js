@@ -305,18 +305,19 @@ function initMerchantModal() {
 // --------------------------------------------------------------------
 let storyAnimFrame = null;
 let storyStartTime = 0;
-const STORY_DURATION_MS = 7000; // 7 segundos
+const STORY_DURATION_MS = 10000; // 10 segundos
 let storyElapsed = 0;
 let storyIsPaused = false;
+let storyEventsAttached = false;
 
 function ensureStoryModalInDom() {
   let modal = document.getElementById('story-modal');
   if (!modal) {
     const div = document.createElement('div');
     div.innerHTML = `
-      <div id="story-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-6 overflow-hidden">
-        <div id="story-card-box" class="relative w-full max-w-[340px] sm:max-w-[375px] aspect-[9/16] max-h-[88vh] rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-slate-950 flex flex-col justify-between select-none animate-in fade-in zoom-in-95 duration-200">
-          <div class="absolute top-0 left-0 right-0 z-30 p-3.5 pt-4 flex flex-col gap-2.5 bg-gradient-to-b from-black/85 via-black/40 to-transparent">
+      <div id="story-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 md:p-6 overflow-hidden">
+        <div id="story-card-box" class="relative w-full max-w-[360px] sm:max-w-[400px] md:max-w-[420px] aspect-[9/16] max-h-[90vh] sm:max-h-[88vh] rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-slate-950 flex flex-col justify-between select-none animate-in fade-in zoom-in-95 duration-200" style="-webkit-touch-callout: none; -webkit-user-select: none; user-select: none;">
+          <div class="absolute top-0 left-0 right-0 z-30 p-3.5 pt-4 flex flex-col gap-2.5 bg-gradient-to-b from-black/85 via-black/40 to-transparent pointer-events-auto">
             <div class="w-full h-1 bg-white/30 rounded-full overflow-hidden">
               <div id="story-progress-bar" class="h-full bg-white rounded-full w-0"></div>
             </div>
@@ -332,7 +333,7 @@ function ensureStoryModalInDom() {
                     <span id="story-merchant-name" class="font-extrabold text-xs sm:text-sm text-white truncate max-w-[170px]">Comercio</span>
                     <span id="story-plan-badge" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.2 rounded font-mono uppercase tracking-tighter shadow-xs">Oro</span>
                   </div>
-                  <span id="story-badge-time" class="text-[10px] text-amber-200 font-medium">Promo Vigente · 7 seg</span>
+                  <span id="story-badge-time" class="text-[10px] text-amber-200 font-medium">Promo Vigente · 10 seg</span>
                 </div>
               </div>
               <button id="story-close-btn" class="w-8 h-8 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition border border-white/20 cursor-pointer" title="Cerrar Historia">
@@ -341,9 +342,9 @@ function ensureStoryModalInDom() {
             </div>
           </div>
           <div class="absolute inset-0 z-10 bg-slate-950 flex items-center justify-center overflow-hidden">
-            <img id="story-image" src="" alt="Historia de Comercio" class="w-full h-full object-cover">
+            <img id="story-image" src="" alt="Historia de Comercio" class="w-full h-full object-cover pointer-events-none select-none" oncontextmenu="return false;" style="-webkit-touch-callout: none; -webkit-user-select: none; user-select: none; pointer-events: none;">
           </div>
-          <div class="relative z-30 p-4 pt-12 pb-4 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent flex flex-col gap-2.5 mt-auto">
+          <div class="relative z-30 p-4 pt-12 pb-4 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent flex flex-col gap-2.5 mt-auto pointer-events-auto">
             <div class="space-y-1">
               <div class="flex items-center gap-2">
                 <span id="story-promo-badge" class="bg-amber-500 text-white text-[10px] font-black px-2 py-0.5 rounded-md shadow-xs flex items-center gap-1">
@@ -361,14 +362,29 @@ function ensureStoryModalInDom() {
                 Descripción de la promoción
               </p>
             </div>
-            <a id="story-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer" class="w-full bg-emerald-600/95 hover:bg-emerald-600 active:scale-98 backdrop-blur-md text-white font-extrabold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-xl border border-emerald-400/30 cursor-pointer">
-              <i data-lucide="message-circle" class="w-4 h-4"></i>
-              <span>Reservar por WhatsApp</span>
-            </a>
-            <div id="story-merchant-link-container" class="text-center pt-0.5">
-              <a id="story-merchant-link" href="#" class="text-[11px] font-semibold text-slate-300 hover:text-white underline underline-offset-2 transition">
-                Ver ficha completa del comercio &rarr;
+
+            <!-- Contenedor de Botones de Acción -->
+            <div id="story-actions-container" class="w-full">
+              <!-- Botón único para Avisos -->
+              <a id="story-aviso-btn" href="#" target="_blank" rel="noopener noreferrer" class="hidden w-full text-white font-extrabold py-3 px-4 rounded-2xl text-xs sm:text-sm transition items-center justify-center gap-2 shadow-xl cursor-pointer active:scale-98">
+                <i data-lucide="external-link" class="w-4 h-4"></i>
+                <span>Más información acá</span>
               </a>
+
+              <!-- Botones gemelos 50/50 para Comercio -->
+              <div id="story-merchant-buttons" class="grid grid-cols-2 gap-2.5 w-full">
+                <!-- Botón 1: WhatsApp (Verde esmeralda) -->
+                <a id="story-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer" class="w-full bg-emerald-600/95 hover:bg-emerald-500 active:scale-98 backdrop-blur-md text-white font-extrabold py-3 px-2 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5 shadow-xl border border-emerald-400/30 cursor-pointer text-center">
+                  <i data-lucide="message-circle" class="w-4 h-4 shrink-0"></i>
+                  <span class="truncate">WhatsApp</span>
+                </a>
+
+                <!-- Botón 2: Ficha completa (Ícono store/tienda) -->
+                <a id="story-merchant-link" href="#" class="w-full bg-indigo-600/95 hover:bg-indigo-500 active:scale-98 backdrop-blur-md text-white font-extrabold py-3 px-2 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5 shadow-xl border border-indigo-400/30 cursor-pointer text-center">
+                  <i data-lucide="store" class="w-4 h-4 shrink-0"></i>
+                  <span class="truncate">Ficha completa</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -377,8 +393,63 @@ function ensureStoryModalInDom() {
     document.body.appendChild(div.firstElementChild);
     modal = document.getElementById('story-modal');
   }
+
+  // Vincular eventos de pausa e interacción una sola vez
+  if (modal && !storyEventsAttached) {
+    const cardBox = document.getElementById('story-card-box');
+    const closeBtn = document.getElementById('story-close-btn');
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.closeStoryModal();
+      });
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        window.closeStoryModal();
+      }
+    });
+
+    // Pausar barra de progreso y congelar historia al presionar (touch y mouse)
+    const pauseStory = (e) => {
+      // Si el toque es sobre botones o enlaces clickeables interactivos, no interferir con la apertura
+      if (e.target.closest('a') || e.target.closest('button')) return;
+      storyIsPaused = true;
+    };
+
+    const resumeStory = () => {
+      storyIsPaused = false;
+    };
+
+    if (cardBox) {
+      // Touch events (móviles)
+      cardBox.addEventListener('touchstart', pauseStory, { passive: true });
+      cardBox.addEventListener('touchend', resumeStory, { passive: true });
+      cardBox.addEventListener('touchcancel', resumeStory, { passive: true });
+
+      // Mouse events (escritorio)
+      cardBox.addEventListener('mousedown', pauseStory);
+      cardBox.addEventListener('mouseup', resumeStory);
+      cardBox.addEventListener('mouseleave', resumeStory);
+
+      // Prevenir menú contextual de clic derecho o touch sostenido
+      cardBox.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        return false;
+      });
+    }
+
+    storyEventsAttached = true;
+  }
+
   return modal;
 }
+
+window.initStoryModal = () => {
+  ensureStoryModalInDom();
+};
 
 window.openStoryModal = (data) => {
   if (!data) return;
@@ -394,8 +465,9 @@ window.openStoryModal = (data) => {
   const rangeEl = document.getElementById('story-promo-range');
   const titleEl = document.getElementById('story-promo-title');
   const descEl = document.getElementById('story-promo-desc');
+  const avisoBtn = document.getElementById('story-aviso-btn');
+  const merchantButtons = document.getElementById('story-merchant-buttons');
   const waBtn = document.getElementById('story-whatsapp-btn');
-  const merchantLinkContainer = document.getElementById('story-merchant-link-container');
   const merchantLink = document.getElementById('story-merchant-link');
   const progressBar = document.getElementById('story-progress-bar');
   const logoContainer = document.getElementById('story-logo-container');
@@ -425,26 +497,22 @@ window.openStoryModal = (data) => {
         ? 'p-0.5 rounded-full bg-gradient-to-tr from-sky-400 via-indigo-500 to-cyan-300 shadow-sm shrink-0'
         : 'p-0.5 rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-amber-300 shadow-sm shrink-0';
     }
-    if (badgeTimeEl) badgeTimeEl.textContent = 'Aviso Vigente · 7 seg';
+    if (badgeTimeEl) badgeTimeEl.textContent = 'Novedad Vigente · 10 seg';
     if (discountEl) discountEl.textContent = isInst ? 'Oficial' : 'Destacado';
-    if (rangeEl) rangeEl.textContent = 'Vigente hoy';
+    if (rangeEl) rangeEl.textContent = 'Vigente';
     if (titleEl) titleEl.textContent = aviso.titulo;
     if (descEl) descEl.textContent = aviso.descripcion_corta;
 
-    // Botón externo
-    if (waBtn) {
-      waBtn.href = aviso.link_externo || '#';
-      waBtn.innerHTML = `
-        <i data-lucide="external-link" class="w-4 h-4"></i>
-        <span>${isInst ? 'Más información oficial' : 'Ver más'}</span>
-      `;
-      waBtn.className = isInst
-        ? 'w-full bg-sky-600 hover:bg-sky-500 active:scale-98 backdrop-blur-md text-white font-extrabold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-xl border border-sky-400/30 cursor-pointer'
-        : 'w-full bg-gradient-to-r from-amber-500 to-rose-600 hover:opacity-95 active:scale-98 backdrop-blur-md text-white font-extrabold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-xl border border-amber-400/30 cursor-pointer';
+    // Mostrar SOLO el botón de aviso y ocultar botones de comercio
+    if (merchantButtons) merchantButtons.classList.add('hidden');
+    if (avisoBtn) {
+      avisoBtn.href = aviso.link_externo || '#';
+      avisoBtn.classList.remove('hidden');
+      avisoBtn.classList.add('flex');
+      avisoBtn.className = isInst
+        ? 'flex w-full bg-sky-600 hover:bg-sky-500 active:scale-98 backdrop-blur-md text-white font-extrabold py-3 px-4 rounded-2xl text-xs sm:text-sm transition items-center justify-center gap-2 shadow-xl border border-sky-400/30 cursor-pointer'
+        : 'flex w-full bg-gradient-to-r from-amber-500 to-rose-600 hover:opacity-95 active:scale-98 backdrop-blur-md text-white font-extrabold py-3 px-4 rounded-2xl text-xs sm:text-sm transition items-center justify-center gap-2 shadow-xl border border-amber-400/30 cursor-pointer';
     }
-
-    // Ocultar link a ficha interna
-    if (merchantLinkContainer) merchantLinkContainer.classList.add('hidden');
   } else {
     // ----------------------------------------------------
     // HISTORIA DE COMERCIO (Plan Oro / Promociones)
@@ -461,7 +529,7 @@ window.openStoryModal = (data) => {
     if (logoContainer) {
       logoContainer.className = 'p-0.5 rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-amber-300 shadow-sm shrink-0';
     }
-    if (badgeTimeEl) badgeTimeEl.textContent = 'Promo Vigente · 7 seg';
+    if (badgeTimeEl) badgeTimeEl.textContent = 'Promo Vigente · 10 seg';
     
     if (discountEl) {
       if (promo && promo.descuento_porcentaje) {
@@ -475,20 +543,25 @@ window.openStoryModal = (data) => {
     if (titleEl) titleEl.textContent = (promo && promo.titulo) || (comercio && comercio.nombre) || 'Promoción';
     if (descEl) descEl.textContent = (promo && promo.descripcion) || (comercio && comercio.descripcion) || '';
 
-    if (merchantLink && comercio) {
-      merchantLink.href = `/comercios/${comercio.slug}.html`;
+    // Mostrar botones gemelos de Comercio y ocultar botón de aviso
+    if (avisoBtn) {
+      avisoBtn.classList.add('hidden');
+      avisoBtn.classList.remove('flex');
     }
-    if (merchantLinkContainer) merchantLinkContainer.classList.remove('hidden');
+    if (merchantButtons) {
+      merchantButtons.classList.remove('hidden');
+    }
 
+    // Botón 1: WhatsApp
     if (waBtn && comercio) {
       const pTitle = (promo && promo.titulo) ? promo.titulo : 'su promoción';
       const waText = `Hola ${comercio.nombre}, vi su Historia/Promo "${pTitle}" en Estoy en Claro y quería consultarles/reservar.`;
       waBtn.href = `https://wa.me/${comercio.whatsapp || '5492983552010'}?text=${encodeURIComponent(waText)}`;
-      waBtn.innerHTML = `
-        <i data-lucide="message-circle" class="w-4 h-4"></i>
-        <span>Reservar por WhatsApp</span>
-      `;
-      waBtn.className = 'w-full bg-emerald-600/95 hover:bg-emerald-600 active:scale-98 backdrop-blur-md text-white font-extrabold py-3 px-4 rounded-2xl text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-xl border border-emerald-400/30 cursor-pointer';
+    }
+
+    // Botón 2: Ficha completa
+    if (merchantLink && comercio) {
+      merchantLink.href = `/comercios/${comercio.slug}.html`;
     }
   }
 
@@ -502,7 +575,7 @@ window.openStoryModal = (data) => {
 
   if (window.lucide) window.lucide.createIcons();
 
-  // Animación del progreso de 7 segundos
+  // Animación del progreso de 10 segundos
   cancelAnimationFrame(storyAnimFrame);
   storyStartTime = performance.now();
   storyElapsed = 0;
@@ -586,12 +659,20 @@ window.closeStoryModal = () => {
 };
 
 // --------------------------------------------------------------------
-// 2.5 Sección Independiente de Avisos / Novedades y Eventos
+// 2.5 Sección Independiente de Avisos / Novedades y Eventos (Carrusel)
+// - Móvil: 1 tarjeta visible (snap), auto-avance 5s, flechas, swipe táctil y dots
+// - PC: varias tarjetas (3 visibles en pantalla), flechas prev/next
+// - Si hay 1 solo aviso: tarjeta única centrada, sin flechas ni controles
 // --------------------------------------------------------------------
 function initAvisosSection() {
   const seccion = document.getElementById('seccion-avisos');
+  const track = document.getElementById('carousel-avisos-track');
   const grid = document.getElementById('avisos-grid');
-  if (!seccion || !grid) return;
+  const prevBtn = document.getElementById('carousel-avisos-prev-btn');
+  const nextBtn = document.getElementById('carousel-avisos-next-btn');
+  const dotsContainer = document.getElementById('carousel-avisos-dots');
+
+  if (!seccion) return;
 
   const avisos = typeof obtenerAvisosActivosHoy === 'function'
     ? obtenerAvisosActivosHoy()
@@ -604,76 +685,202 @@ function initAvisosSection() {
 
   seccion.classList.remove('hidden');
 
-  grid.innerHTML = avisos.map(aviso => {
+  // Helper para generar el HTML de una tarjeta de aviso
+  const renderAvisoCardHtml = (aviso, isCarousel = true, isSingle = false) => {
     const isInst = Boolean(aviso.institucional);
     const storyUrl = aviso.imagen_historia_url;
+    const itemWrapperClass = isCarousel
+      ? (isSingle 
+          ? "carousel-aviso-item w-full max-w-xl mx-auto" 
+          : "carousel-aviso-item flex-none w-[88vw] sm:w-[50vw] md:w-[calc(50%-10px)] lg:w-[calc(33.333%-11px)] snap-start")
+      : "";
 
     return `
-      <article 
-        onclick="openStoryModalByAvisoId('${aviso.id}')"
-        class="relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group cursor-pointer border ${isInst ? 'border-sky-300/80 ring-2 ring-sky-400/20' : 'border-amber-300/80 ring-2 ring-amber-400/25'} bg-slate-950"
-        style="min-height: 250px;"
-      >
-        <!-- Imagen de fondo con gradiente optimizado para legibilidad -->
-        <div class="absolute inset-0 z-0">
-          <img src="${storyUrl}" alt="${aviso.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" loading="lazy">
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-slate-950/40"></div>
-        </div>
+      <div class="${itemWrapperClass}">
+        <article 
+          onclick="openStoryModalByAvisoId('${aviso.id}')"
+          class="h-full relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group cursor-pointer border ${isInst ? 'border-sky-300/80 ring-2 ring-sky-400/20' : 'border-amber-300/80 ring-2 ring-amber-400/25'} bg-slate-950"
+          style="min-height: 250px;"
+        >
+          <!-- Imagen de fondo con gradiente optimizado para legibilidad -->
+          <div class="absolute inset-0 z-0">
+            <img src="${storyUrl}" alt="${aviso.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-slate-950/40"></div>
+          </div>
 
-        <!-- Header de la tarjeta -->
-        <div class="relative z-10 p-4 sm:p-5 space-y-3">
-          <div class="flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
-              <div class="p-0.5 rounded-full ${isInst ? 'bg-gradient-to-tr from-sky-400 via-indigo-500 to-cyan-300' : 'bg-gradient-to-tr from-amber-400 via-rose-500 to-amber-300'} shadow-md shrink-0">
-                <div class="w-7 h-7 bg-slate-900 rounded-full flex items-center justify-center text-white">
-                  <i data-lucide="${isInst ? 'landmark' : 'sparkles'}" class="w-3.5 h-3.5 ${isInst ? 'text-sky-400' : 'text-amber-400'}"></i>
-                </div>
+          <!-- Header de la tarjeta -->
+          <div class="relative z-10 p-4 sm:p-5 space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <!-- Tag Novedad con destello/shimmer sutil con movimiento -->
+              <div class="relative overflow-hidden inline-flex items-center gap-1.5 bg-slate-900/85 text-amber-300 border border-amber-400/50 text-[11px] font-black px-2.5 py-1 rounded-lg backdrop-blur-md shadow-xs uppercase tracking-wider">
+                <span class="absolute inset-0 -translate-x-full animate-shimmer-badge bg-gradient-to-r from-transparent via-amber-300/35 to-transparent pointer-events-none"></span>
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400 shrink-0"></i>
+                <span class="relative z-10">Novedad</span>
               </div>
-              <span class="inline-flex items-center gap-1 ${isInst ? 'bg-sky-600/90 text-white' : 'bg-gradient-to-r from-amber-500 to-rose-500 text-white'} text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-xs tracking-tight uppercase">
-                ${isInst ? 'Institucional' : 'Novedad'}
-              </span>
             </div>
 
-            <span class="text-[10px] font-bold text-slate-200 bg-white/10 border border-white/15 px-2 py-0.5 rounded-md backdrop-blur-xs">
-              Vigente hoy
-            </span>
+            <div>
+              <h3 class="font-extrabold text-white text-base group-hover:text-amber-300 transition line-clamp-2 drop-shadow-md leading-snug">
+                ${aviso.titulo}
+              </h3>
+              <p class="text-xs text-slate-200 mt-1 leading-snug line-clamp-1 sm:line-clamp-2 drop-shadow-xs">
+                ${aviso.descripcion_corta}
+              </p>
+            </div>
           </div>
 
-          <div>
-            <h3 class="font-extrabold text-white text-base group-hover:text-amber-300 transition line-clamp-2 drop-shadow-md">
-              ${aviso.titulo}
-            </h3>
-            <p class="text-xs sm:text-sm text-slate-200 mt-1 leading-relaxed line-clamp-2 drop-shadow">
-              ${aviso.descripcion_corta}
-            </p>
+          <!-- Footer de acciones -->
+          <div class="relative z-10 p-4 sm:p-5 pt-0 flex items-center justify-between gap-2 border-t border-white/15 mt-2">
+            <button 
+              type="button"
+              onclick="event.stopPropagation(); openStoryModalByAvisoId('${aviso.id}')"
+              class="text-xs font-extrabold text-white bg-white/20 hover:bg-white/30 backdrop-blur-xs px-3.5 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer shadow-xs"
+            >
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span>Ver más</span>
+            </button>
           </div>
-        </div>
-
-        <!-- Footer de acciones -->
-        <div class="relative z-10 p-4 sm:p-5 pt-0 flex items-center justify-between gap-2 border-t border-white/15 mt-2">
-          <button 
-            type="button"
-            onclick="event.stopPropagation(); openStoryModalByAvisoId('${aviso.id}')"
-            class="text-xs font-extrabold text-white bg-white/20 hover:bg-white/30 backdrop-blur-xs px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer"
-          >
-            <i data-lucide="play-circle" class="w-3.5 h-3.5 ${isInst ? 'text-sky-300' : 'text-amber-400'}"></i>
-            <span>Ver Historia 9:16</span>
-          </button>
-
-          <a 
-            href="${aviso.link_externo}" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            onclick="event.stopPropagation()"
-            class="inline-flex items-center gap-1.5 ${isInst ? 'bg-sky-600 hover:bg-sky-500' : 'bg-emerald-600 hover:bg-emerald-500'} text-white text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-xs"
-          >
-            <span>Ver más</span>
-            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-          </a>
-        </div>
-      </article>
+        </article>
+      </div>
     `;
-  }).join('');
+  };
+
+  // Si aún existe el contenedor estático de grilla
+  if (grid) {
+    grid.innerHTML = avisos.map(a => renderAvisoCardHtml(a, false)).join('');
+  }
+
+  // Carrusel en el track
+  if (track) {
+    const isSingle = avisos.length === 1;
+    const isDesktop = () => window.innerWidth >= 768;
+
+    track.innerHTML = avisos.map(a => renderAvisoCardHtml(a, true, isSingle)).join('');
+
+    // Si hay un solo aviso: ocultar controles y no iniciar auto-avance
+    if (isSingle) {
+      if (prevBtn) prevBtn.classList.add('hidden');
+      if (nextBtn) nextBtn.classList.add('hidden');
+      if (dotsContainer) dotsContainer.classList.add('hidden');
+      track.classList.remove('overflow-x-auto', 'snap-x', 'snap-mandatory');
+      track.classList.add('justify-center');
+      if (window.lucide) window.lucide.createIcons();
+      return;
+    }
+
+    // Si hay más de un aviso: activar controles de carrusel
+    if (prevBtn) prevBtn.classList.remove('hidden');
+    if (nextBtn) nextBtn.classList.remove('hidden');
+    if (dotsContainer) dotsContainer.classList.remove('hidden');
+    track.classList.remove('justify-center');
+    track.classList.add('overflow-x-auto', 'snap-x', 'snap-mandatory');
+
+    // Dots indicators para vista móvil
+    if (dotsContainer) {
+      dotsContainer.innerHTML = avisos.map((_, i) => `
+        <button data-aviso-index="${i}" class="carousel-aviso-dot w-2 h-2 rounded-full transition-all duration-300 ${i === 0 ? 'bg-indigo-600 w-5' : 'bg-slate-300'}" aria-label="Ir a aviso ${i + 1}"></button>
+      `).join('');
+
+      const dots = dotsContainer.querySelectorAll('.carousel-aviso-dot');
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          const index = parseInt(dot.getAttribute('data-aviso-index') || '0', 10);
+          scrollToAvisoCard(index);
+        });
+      });
+    }
+
+    function getAvisoCardWidth() {
+      const firstCard = track.querySelector('.carousel-aviso-item');
+      if (!firstCard) return 300;
+      const style = window.getComputedStyle(track);
+      const gap = parseFloat(style.gap) || 16;
+      return firstCard.offsetWidth + gap;
+    }
+
+    function scrollToAvisoCard(index) {
+      const cardWidth = getAvisoCardWidth();
+      track.scrollTo({
+        left: index * cardWidth,
+        behavior: 'smooth'
+      });
+      updateActiveAvisoDot(index);
+    }
+
+    function updateActiveAvisoDot(index) {
+      if (!dotsContainer) return;
+      const dots = dotsContainer.querySelectorAll('.carousel-aviso-dot');
+      dots.forEach((dot, i) => {
+        if (i === index) {
+          dot.className = 'carousel-aviso-dot w-5 h-2 rounded-full bg-indigo-600 transition-all duration-300';
+        } else {
+          dot.className = 'carousel-aviso-dot w-2 h-2 rounded-full bg-slate-300 transition-all duration-300';
+        }
+      });
+    }
+
+    let currentAvisoIdx = 0;
+
+    function nextAvisoSlide() {
+      const step = isDesktop() ? (avisos.length >= 3 ? 2 : 1) : 1;
+      currentAvisoIdx = (currentAvisoIdx + step) >= avisos.length ? 0 : currentAvisoIdx + step;
+      scrollToAvisoCard(currentAvisoIdx);
+    }
+
+    function prevAvisoSlide() {
+      const step = isDesktop() ? (avisos.length >= 3 ? 2 : 1) : 1;
+      currentAvisoIdx = (currentAvisoIdx - step < 0) ? Math.max(0, avisos.length - step) : currentAvisoIdx - step;
+      scrollToAvisoCard(currentAvisoIdx);
+    }
+
+    if (nextBtn) nextBtn.addEventListener('click', () => { nextAvisoSlide(); resetAvisoTimer(); });
+    if (prevBtn) prevBtn.addEventListener('click', () => { prevAvisoSlide(); resetAvisoTimer(); });
+
+    // Auto-advance de 5 segundos en móvil
+    let autoAvisoTimer = setInterval(nextAvisoSlide, 5000);
+
+    function resetAvisoTimer() {
+      clearInterval(autoAvisoTimer);
+      autoAvisoTimer = setInterval(nextAvisoSlide, 5000);
+    }
+
+    track.addEventListener('mouseenter', () => clearInterval(autoAvisoTimer));
+    track.addEventListener('mouseleave', () => resetAvisoTimer());
+
+    // Swipe táctil en móvil para avisos
+    let aTouchStartX = 0;
+    track.addEventListener('touchstart', (e) => {
+      aTouchStartX = e.touches[0].clientX;
+      clearInterval(autoAvisoTimer);
+    }, { passive: true });
+
+    track.addEventListener('touchend', (e) => {
+      const aTouchEndX = e.changedTouches[0].clientX;
+      const diff = aTouchStartX - aTouchEndX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) {
+          nextAvisoSlide();
+        } else {
+          prevAvisoSlide();
+        }
+      }
+      resetAvisoTimer();
+    }, { passive: true });
+
+    // Scroll listener sincronizado con debounce
+    let avisoScrollDebounce;
+    track.addEventListener('scroll', () => {
+      clearTimeout(avisoScrollDebounce);
+      avisoScrollDebounce = setTimeout(() => {
+        const cardWidth = getAvisoCardWidth();
+        const activeIdx = Math.round(track.scrollLeft / cardWidth);
+        if (activeIdx >= 0 && activeIdx < avisos.length) {
+          currentAvisoIdx = activeIdx;
+          updateActiveAvisoDot(activeIdx);
+        }
+      }, 100);
+    }, { passive: true });
+  }
 
   if (window.lucide) window.lucide.createIcons();
 }
@@ -755,9 +962,9 @@ function renderPromoCard(promo, comercio, isCarousel = false) {
                     <img src="${comercio.logo_url || comercio.imagen_portada_url}" alt="${comercio.nombre}" class="w-7 h-7 rounded-full object-cover">
                   </div>
                 </div>
-                <!-- Badge indicador de Historia interactiva -->
-                <span class="inline-flex items-center gap-1 bg-gradient-to-r from-amber-500 to-rose-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-xs tracking-tight">
-                  <i data-lucide="play" class="w-2.5 h-2.5 fill-white"></i> Historia 9:16
+                <!-- Badge indicador de Promo -->
+                <span class="inline-flex items-center gap-1 bg-gradient-to-r from-amber-500 to-rose-500 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-xs tracking-tight">
+                  <i data-lucide="sparkles" class="w-3 h-3 text-amber-200"></i> Promo
                 </span>
               </div>
 
@@ -781,9 +988,6 @@ function renderPromoCard(promo, comercio, isCarousel = false) {
               <span class="font-black text-xs sm:text-sm truncate drop-shadow flex items-center gap-1.5">
                 <span class="text-amber-400 font-bold">★</span> ${comercio.nombre}
               </span>
-              <span class="text-[10px] font-bold text-amber-200 bg-white/10 px-2 py-0.5 rounded backdrop-blur-xs">
-                ${promo.rango_texto || 'Vigente'}
-              </span>
             </div>
           </div>
 
@@ -792,10 +996,10 @@ function renderPromoCard(promo, comercio, isCarousel = false) {
             <button 
               type="button"
               onclick="event.stopPropagation(); openStoryModalById('${comercio.id}', '${promo.id || ''}')"
-              class="text-xs font-extrabold text-white bg-white/20 hover:bg-white/30 backdrop-blur-xs px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer"
+              class="text-xs font-extrabold text-white bg-white/20 hover:bg-white/30 backdrop-blur-xs px-3.5 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
             >
-              <i data-lucide="play-circle" class="w-3.5 h-3.5 text-amber-400"></i>
-              <span>Ver Historia</span>
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span>Ver más</span>
             </button>
 
             <div class="flex items-center gap-2">
@@ -837,9 +1041,6 @@ function renderPromoCard(promo, comercio, isCarousel = false) {
             <span class="inline-flex items-center gap-1.5 bg-amber-500 text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-xs">
               <i data-lucide="tag" class="w-3.5 h-3.5"></i>
               ${promo.descuento_porcentaje ? `${promo.descuento_porcentaje}% OFF` : 'Beneficio'}
-            </span>
-            <span class="text-xs font-bold text-amber-900 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md truncate max-w-[140px]">
-              ${promo.rango_texto || 'Vigente'}
             </span>
           </div>
           <div>
@@ -1065,11 +1266,11 @@ function initRecommendedCarousel() {
                 type="button"
                 onclick="event.stopPropagation(); openStoryModalById('${c.id}')"
                 class="absolute top-3 right-3 p-0.5 rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-amber-300 shadow-md hover:scale-105 transition cursor-pointer z-10"
-                title="Ver Historia vertical 9:16"
+                title="Ver promo destacada"
               >
                 <div class="bg-slate-950/90 hover:bg-slate-950 text-white text-[10px] font-black px-2 py-0.5 rounded-full flex items-center gap-1">
-                  <i data-lucide="play" class="w-2.5 h-2.5 fill-white"></i>
-                  <span>Historia</span>
+                  <i data-lucide="sparkles" class="w-2.5 h-2.5 text-amber-300"></i>
+                  <span>Promo</span>
                 </div>
               </button>
             ` : ''}

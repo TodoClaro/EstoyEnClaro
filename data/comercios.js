@@ -2451,7 +2451,7 @@ const AVISOS_DATA = [
   {
     id: 'aviso-muni-recoleccion-diferenciada',
     titulo: 'Puntos Limpios y Recolección Diferenciada en Claromecó',
-    descripcion_corta: 'La Delegación y Gestión Ambiental informan los nuevos días de recolección de reciclables, ramas y residuos secos en Claromecó y Dunamar.',
+    descripcion_corta: 'Nuevos días de recolección de reciclables, ramas y secos en la villa.',
     imagen_historia_url: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=720&auto=format&fit=crop&q=80',
     link_externo: 'https://www.tresarroyos.gov.ar',
     fecha_inicio: '2026-08-01',
@@ -2461,7 +2461,7 @@ const AVISOS_DATA = [
   {
     id: 'aviso-celcla-guardia-digital',
     titulo: 'CELCLA: Guardia 24hs de Energía y Fibra Óptica',
-    descripcion_corta: 'Canales de atención digital, autogestión de facturas y números de guardia técnica directa ante emergencias en la villa.',
+    descripcion_corta: 'Canales de atención digital y números de guardia técnica 24hs.',
     imagen_historia_url: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=720&auto=format&fit=crop&q=80',
     link_externo: 'https://wa.me/5492983552010?text=Hola%20CELCLA%20Claromec%C3%B3%2C%20necesito%20comunicarme%20con%20la%20guardia',
     fecha_inicio: '2026-08-15',
@@ -2471,7 +2471,7 @@ const AVISOS_DATA = [
   {
     id: 'aviso-clinica-4x4-medanos',
     titulo: 'Clínica de Manejo en Arena y Punto de Inflado 4x4 Gratuito',
-    descripcion_corta: 'Demo especial de manejo seguro en dunas gigantes, calibración de neumáticos sin cargo y test drive todoterreno en Parador Posta del Sur.',
+    descripcion_corta: 'Manejo seguro en dunas, inflado gratis y test drive en Posta del Sur.',
     imagen_historia_url: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=720&auto=format&fit=crop&q=80',
     link_externo: 'https://instagram.com/claromeco4x4',
     fecha_inicio: '2026-08-20',

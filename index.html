@@ -25,11 +25,29 @@
             fontFamily: {
               sans: ['"Plus Jakarta Sans"', 'sans-serif'],
               display: ['Outfit', 'sans-serif'],
+            },
+            keyframes: {
+              shimmer: {
+                '0%': { transform: 'translateX(-120%)' },
+                '50%, 100%': { transform: 'translateX(220%)' }
+              }
+            },
+            animation: {
+              shimmer: 'shimmer 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite'
             }
           }
         }
       }
     </script>
+    <style>
+      @keyframes shimmerBadge {
+        0% { transform: translateX(-120%); }
+        50%, 100% { transform: translateX(220%); }
+      }
+      .animate-shimmer-badge {
+        animation: shimmerBadge 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+    </style>
 
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -108,10 +126,40 @@
           </div>
         </div>
 
-        <!-- Grilla de Avisos destacados (Se inyecta dinámicamente vía app.js) -->
-        <div id="avisos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
-          <!-- Dinámico -->
+        <!-- Carrusel de Avisos -->
+        <div class="relative group/avisos">
+          <!-- Flecha Izquierda -->
+          <button 
+            id="carousel-avisos-prev-btn" 
+            class="flex absolute left-0 md:-left-4 lg:-left-5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/85 md:bg-white/95 hover:bg-white text-slate-800 shadow-md border border-slate-200/80 items-center justify-center transition cursor-pointer hover:scale-105 active:scale-95" 
+            title="Anterior aviso"
+            aria-label="Anterior aviso"
+          >
+            <i data-lucide="chevron-left" class="w-4 h-4 md:w-5 md:h-5"></i>
+          </button>
+
+          <!-- Track deslizable de Avisos -->
+          <div 
+            id="carousel-avisos-track" 
+            class="flex gap-4 overflow-x-auto scrollbar-none pb-3 pt-1 scroll-smooth snap-x snap-mandatory cursor-grab select-none px-1"
+            style="-webkit-overflow-scrolling: touch; scrollbar-width: none;"
+          >
+            <!-- Se inyecta dinámicamente vía app.js -->
+          </div>
+
+          <!-- Flecha Derecha -->
+          <button 
+            id="carousel-avisos-next-btn" 
+            class="flex absolute right-0 md:-right-4 lg:-right-5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/85 md:bg-white/95 hover:bg-white text-slate-800 shadow-md border border-slate-200/80 items-center justify-center transition cursor-pointer hover:scale-105 active:scale-95" 
+            title="Siguiente aviso"
+            aria-label="Siguiente aviso"
+          >
+            <i data-lucide="chevron-right" class="w-4 h-4 md:w-5 md:h-5"></i>
+          </button>
         </div>
+
+        <!-- Indicadores (Dots) solo para móvil -->
+        <div id="carousel-avisos-dots" class="flex md:hidden items-center justify-center gap-1.5 pt-1"></div>
       </section>
 
       <!-- 2. CATEGORÍAS COMPACTAS (Las 8 oficiales estrictas en formato chip/compacto) -->
@@ -130,115 +178,115 @@
         <!-- Grilla de las 8 categorías oficiales en orden (Móvil: 1 columna de ancho completo / Desktop: Grilla de 4 columnas) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
           <!-- 1. Gastronomía -->
-          <a href="/categorias/gastronomia.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-amber-500 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
-            <div class="w-10 h-10 rounded-xl bg-white sm:bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
+          <a href="/categorias/gastronomia.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-amber-50/90 border border-amber-300/80 sm:bg-amber-50/60 sm:border-amber-200/90 shadow-2xs hover:border-amber-500 hover:bg-amber-100/60 hover:shadow-xs transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white text-amber-600 border border-amber-200/70 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="utensils" class="w-5 h-5"></i>
             </div>
             <div class="min-w-0 flex-1">
-              <h3 class="font-bold text-slate-900 text-sm group-hover:text-amber-600 leading-snug sm:whitespace-nowrap sm:truncate">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-amber-700 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">1. </span>Gastronomía
               </h3>
-              <p class="text-[11px] text-slate-500 truncate">Parrillas, restobares, helados</p>
+              <p class="text-[11px] text-slate-600 truncate">Parrillas, restobares, helados</p>
             </div>
-            <i data-lucide="chevron-right" class="w-4 h-4 text-amber-600/60 sm:hidden shrink-0 ml-auto"></i>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-amber-600/70 sm:hidden shrink-0 ml-auto"></i>
           </a>
 
           <!-- 2. Alojamiento -->
-          <a href="/categorias/alojamiento.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-sky-50/80 border border-sky-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-sky-500 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
-            <div class="w-10 h-10 rounded-xl bg-white sm:bg-sky-50 text-sky-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
+          <a href="/categorias/alojamiento.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-sky-50/90 border border-sky-300/80 sm:bg-sky-50/60 sm:border-sky-200/90 shadow-2xs hover:border-sky-500 hover:bg-sky-100/60 hover:shadow-xs transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white text-sky-600 border border-sky-200/70 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="hotel" class="w-5 h-5"></i>
             </div>
             <div class="min-w-0 flex-1">
-              <h3 class="font-bold text-slate-900 text-sm group-hover:text-sky-600 leading-snug sm:whitespace-nowrap sm:truncate">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-sky-700 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">2. </span>Alojamiento
               </h3>
-              <p class="text-[11px] text-slate-500 truncate">Cabañas Dunamar, hoteles</p>
+              <p class="text-[11px] text-slate-600 truncate">Cabañas Dunamar, hoteles</p>
             </div>
-            <i data-lucide="chevron-right" class="w-4 h-4 text-sky-600/60 sm:hidden shrink-0 ml-auto"></i>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-sky-600/70 sm:hidden shrink-0 ml-auto"></i>
           </a>
 
           <!-- 3. Inmobiliarias y Alquileres -->
-          <a href="/categorias/inmobiliarias_alquileres.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-blue-50/80 border border-blue-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-blue-500 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
-            <div class="w-10 h-10 rounded-xl bg-white sm:bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
+          <a href="/categorias/inmobiliarias_alquileres.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-blue-50/90 border border-blue-300/80 sm:bg-blue-50/60 sm:border-blue-200/90 shadow-2xs hover:border-blue-500 hover:bg-blue-100/60 hover:shadow-xs transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white text-blue-600 border border-blue-200/70 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="building-2" class="w-5 h-5"></i>
             </div>
             <div class="min-w-0 flex-1">
-              <h3 class="font-bold text-slate-900 text-sm group-hover:text-blue-600 leading-snug sm:whitespace-nowrap sm:truncate">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-blue-700 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">3. </span>Inmobiliarias y Alquileres
               </h3>
-              <p class="text-[11px] text-slate-500 truncate">Alquiler temporada, ventas</p>
+              <p class="text-[11px] text-slate-600 truncate">Alquiler temporada, ventas</p>
             </div>
-            <i data-lucide="chevron-right" class="w-4 h-4 text-blue-600/60 sm:hidden shrink-0 ml-auto"></i>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-blue-600/70 sm:hidden shrink-0 ml-auto"></i>
           </a>
 
           <!-- 4. Almacenes y Kioscos -->
-          <a href="/categorias/almacenes_kioscos.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-emerald-50/80 border border-emerald-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-emerald-500 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
-            <div class="w-10 h-10 rounded-xl bg-white sm:bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
+          <a href="/categorias/almacenes_kioscos.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-emerald-50/90 border border-emerald-300/80 sm:bg-emerald-50/60 sm:border-emerald-200/90 shadow-2xs hover:border-emerald-500 hover:bg-emerald-100/60 hover:shadow-xs transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white text-emerald-600 border border-emerald-200/70 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="shopping-bag" class="w-5 h-5"></i>
             </div>
             <div class="min-w-0 flex-1">
-              <h3 class="font-bold text-slate-900 text-sm group-hover:text-emerald-600 leading-snug sm:whitespace-nowrap sm:truncate">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-emerald-700 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">4. </span>Almacenes y Kioscos
               </h3>
-              <p class="text-[11px] text-slate-500 truncate">Supermercados, 24hs</p>
+              <p class="text-[11px] text-slate-600 truncate">Supermercados, 24hs</p>
             </div>
-            <i data-lucide="chevron-right" class="w-4 h-4 text-emerald-600/60 sm:hidden shrink-0 ml-auto"></i>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-emerald-600/70 sm:hidden shrink-0 ml-auto"></i>
           </a>
 
           <!-- 5. Servicios y Oficios -->
-          <a href="/categorias/servicios_oficios.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-indigo-50/80 border border-indigo-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-indigo-500 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
-            <div class="w-10 h-10 rounded-xl bg-white sm:bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
+          <a href="/categorias/servicios_oficios.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-indigo-50/90 border border-indigo-300/80 sm:bg-indigo-50/60 sm:border-indigo-200/90 shadow-2xs hover:border-indigo-500 hover:bg-indigo-100/60 hover:shadow-xs transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white text-indigo-600 border border-indigo-200/70 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="wrench" class="w-5 h-5"></i>
             </div>
             <div class="min-w-0 flex-1">
-              <h3 class="font-bold text-slate-900 text-sm group-hover:text-indigo-600 leading-snug sm:whitespace-nowrap sm:truncate">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-indigo-700 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">5. </span>Servicios y Oficios
               </h3>
-              <p class="text-[11px] text-slate-500 truncate">Ferretería, auxilio, talleres</p>
+              <p class="text-[11px] text-slate-600 truncate">Ferretería, auxilio, talleres</p>
             </div>
-            <i data-lucide="chevron-right" class="w-4 h-4 text-indigo-600/60 sm:hidden shrink-0 ml-auto"></i>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-indigo-600/70 sm:hidden shrink-0 ml-auto"></i>
           </a>
 
           <!-- 6. Compras & Regalos -->
-          <a href="/categorias/compras_regaleria.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-rose-50/80 border border-rose-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-rose-500 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
-            <div class="w-10 h-10 rounded-xl bg-white sm:bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
+          <a href="/categorias/compras_regaleria.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-rose-50/90 border border-rose-300/80 sm:bg-rose-50/60 sm:border-rose-200/90 shadow-2xs hover:border-rose-500 hover:bg-rose-100/60 hover:shadow-xs transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white text-rose-600 border border-rose-200/70 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="gift" class="w-5 h-5"></i>
             </div>
             <div class="min-w-0 flex-1">
-              <h3 class="font-bold text-slate-900 text-sm group-hover:text-rose-600 leading-snug sm:whitespace-nowrap sm:truncate">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-rose-700 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">6. </span>Compras & Regalos
               </h3>
-              <p class="text-[11px] text-slate-500 truncate">Souvenirs, playa, regalos</p>
+              <p class="text-[11px] text-slate-600 truncate">Souvenirs, playa, regalos</p>
             </div>
-            <i data-lucide="chevron-right" class="w-4 h-4 text-rose-600/60 sm:hidden shrink-0 ml-auto"></i>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-rose-600/70 sm:hidden shrink-0 ml-auto"></i>
           </a>
 
           <!-- 7. Comercios en Gral. -->
-          <a href="/categorias/comercios_gral.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-slate-100/90 border border-slate-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-slate-700 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
-            <div class="w-10 h-10 rounded-xl bg-white sm:bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
+          <a href="/categorias/comercios_gral.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-slate-100/95 border border-slate-300/80 sm:bg-slate-100/70 sm:border-slate-300/80 shadow-2xs hover:border-slate-700 hover:bg-slate-200/60 hover:shadow-xs transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white text-slate-700 border border-slate-200/80 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="store" class="w-5 h-5"></i>
             </div>
             <div class="min-w-0 flex-1">
               <h3 class="font-bold text-slate-900 text-sm group-hover:text-slate-800 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">7. </span>Comercios en Gral.
               </h3>
-              <p class="text-[11px] text-slate-500 truncate">Pesca, carnadas, varios</p>
+              <p class="text-[11px] text-slate-600 truncate">Pesca, carnadas, varios</p>
             </div>
             <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 sm:hidden shrink-0 ml-auto"></i>
           </a>
 
           <!-- 8. Turismo y Ocio -->
-          <a href="/categorias/turismo_deportes.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-cyan-50/80 border border-cyan-200/90 sm:bg-white sm:border-slate-200/90 shadow-2xs hover:border-cyan-500 hover:shadow-sm transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
-            <div class="w-10 h-10 rounded-xl bg-white sm:bg-cyan-50 text-cyan-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
+          <a href="/categorias/turismo_deportes.html" class="px-4 py-3 sm:p-3.5 rounded-2xl bg-cyan-50/90 border border-cyan-300/80 sm:bg-cyan-50/60 sm:border-cyan-200/90 shadow-2xs hover:border-cyan-500 hover:bg-cyan-100/60 hover:shadow-xs transition flex flex-row items-center gap-3.5 text-left group justify-start min-h-[60px] sm:min-h-[56px]">
+            <div class="w-10 h-10 rounded-xl bg-white text-cyan-600 border border-cyan-200/70 flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
               <i data-lucide="compass" class="w-5 h-5"></i>
             </div>
             <div class="min-w-0 flex-1">
-              <h3 class="font-bold text-slate-900 text-sm group-hover:text-cyan-600 leading-snug sm:whitespace-nowrap sm:truncate">
+              <h3 class="font-bold text-slate-900 text-sm group-hover:text-cyan-700 leading-snug sm:whitespace-nowrap sm:truncate">
                 <span class="hidden sm:inline">8. </span>Turismo y Ocio
               </h3>
-              <p class="text-[11px] text-slate-500 truncate">Kayaks, pádel, paradores</p>
+              <p class="text-[11px] text-slate-600 truncate">Kayaks, pádel, paradores</p>
             </div>
-            <i data-lucide="chevron-right" class="w-4 h-4 text-cyan-600/60 sm:hidden shrink-0 ml-auto"></i>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-cyan-600/70 sm:hidden shrink-0 ml-auto"></i>
           </a>
         </div>
       </section>
