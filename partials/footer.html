@@ -109,26 +109,26 @@
   </div>
 </footer>
 
-<!-- BARRA INFERIOR MÓVIL (PWA Feel) -->
-<nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 py-2 flex items-center justify-around text-[10px] font-semibold text-slate-600 shadow-lg">
-  <a href="/" class="nav-bottom-item flex flex-col items-center gap-1 hover:text-sky-600" data-bottom="inicio">
-    <i data-lucide="home" class="w-5 h-5"></i>
+<!-- BARRA INFERIOR MÓVIL (PWA Feel - Alta visibilidad y contraste) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-lg border-t border-slate-800 px-2 py-2 flex items-center justify-around text-[10px] font-semibold text-slate-300 shadow-2xl">
+  <a href="/" class="nav-bottom-item flex flex-col items-center gap-1 hover:text-sky-400 transition py-0.5 px-2 rounded-xl active:bg-slate-900" data-bottom="inicio">
+    <i data-lucide="home" class="w-5 h-5 text-slate-300"></i>
     <span>Inicio</span>
   </a>
-  <a href="/categorias/index.html" class="nav-bottom-item flex flex-col items-center gap-1 hover:text-sky-600" data-bottom="categorias">
-    <i data-lucide="grid" class="w-5 h-5"></i>
+  <a href="/categorias/index.html" class="nav-bottom-item flex flex-col items-center gap-1 hover:text-sky-400 transition py-0.5 px-2 rounded-xl active:bg-slate-900" data-bottom="categorias">
+    <i data-lucide="grid" class="w-5 h-5 text-slate-300"></i>
     <span>Rubros</span>
   </a>
-  <a href="/promociones.html" class="nav-bottom-item flex flex-col items-center gap-1 hover:text-sky-600" data-bottom="promociones">
-    <i data-lucide="tag" class="w-5 h-5"></i>
-    <span>Promos</span>
+  <a href="/promociones.html" class="nav-bottom-item flex flex-col items-center gap-1 hover:text-amber-400 transition py-0.5 px-2 rounded-xl active:bg-slate-900" data-bottom="promociones">
+    <i data-lucide="tag" class="w-5 h-5 text-amber-400"></i>
+    <span class="text-amber-300">Promos</span>
   </a>
-  <button data-open-search class="flex flex-col items-center gap-1 hover:text-sky-600 cursor-pointer">
-    <i data-lucide="search" class="w-5 h-5"></i>
+  <button data-open-search class="flex flex-col items-center gap-1 hover:text-sky-400 transition py-0.5 px-2 rounded-xl text-slate-300 active:bg-slate-900 cursor-pointer">
+    <i data-lucide="search" class="w-5 h-5 text-slate-300"></i>
     <span>Buscar</span>
   </button>
-  <button data-open-urgencias class="flex flex-col items-center gap-1 text-rose-600 font-bold cursor-pointer">
-    <i data-lucide="phone-call" class="w-5 h-5"></i>
+  <button data-open-urgencias class="flex flex-col items-center gap-1 text-rose-400 hover:text-rose-300 transition py-0.5 px-2 rounded-xl active:bg-slate-900 font-bold cursor-pointer">
+    <i data-lucide="phone-call" class="w-5 h-5 text-rose-400 animate-pulse"></i>
     <span>Guardia</span>
   </button>
 </nav>

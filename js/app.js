@@ -106,8 +106,13 @@ function highlightActiveBottomNav() {
     }
 
     if (isActive) {
-      link.classList.remove('text-slate-600');
-      link.classList.add('text-sky-600', 'font-bold');
+      link.classList.remove('text-slate-300', 'text-slate-400', 'text-slate-600');
+      link.classList.add('text-sky-400', 'font-bold');
+      const icon = link.querySelector('i, svg');
+      if (icon) {
+        icon.classList.remove('text-slate-300', 'text-slate-400');
+        icon.classList.add('text-sky-400');
+      }
     }
   });
 }
@@ -331,7 +336,7 @@ function ensureStoryModalInDom() {
                 <div class="leading-tight text-white drop-shadow">
                   <div class="flex items-center gap-1.5">
                     <span id="story-merchant-name" class="font-extrabold text-xs sm:text-sm text-white truncate max-w-[170px]">Comercio</span>
-                    <span id="story-plan-badge" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.2 rounded font-mono uppercase tracking-tighter shadow-xs">Oro</span>
+                    <span id="story-plan-badge" class="bg-amber-400 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded shadow-xs">Destacado</span>
                   </div>
                   <span id="story-badge-time" class="text-[10px] text-amber-200 font-medium">Promo Vigente · 10 seg</span>
                 </div>
@@ -523,8 +528,8 @@ window.openStoryModal = (data) => {
     if (logoEl) logoEl.src = (comercio && (comercio.logo_url || comercio.imagen_portada_url)) || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=150';
     if (nameEl) nameEl.textContent = (comercio && comercio.nombre) || 'Comercio';
     if (planBadgeEl) {
-      planBadgeEl.textContent = 'Oro';
-      planBadgeEl.className = 'bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.2 rounded font-mono uppercase tracking-tighter shadow-xs';
+      planBadgeEl.textContent = 'Destacado';
+      planBadgeEl.className = 'bg-amber-400 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded shadow-xs';
     }
     if (logoContainer) {
       logoContainer.className = 'p-0.5 rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-amber-300 shadow-sm shrink-0';
@@ -1638,7 +1643,13 @@ function initCategoryPage() {
       return;
     }
 
-    categoryGrid.innerHTML = filtrados.map(comercio => `
+    // Ordenar comercios según prioridad estricta de planes (1° Oro, 2° Plata, 3° Bronce, 4° Gratis) y alfabético
+    const comerciosOrdenados = typeof ordenarComercios === 'function' ? ordenarComercios(filtrados) : filtrados;
+
+    categoryGrid.innerHTML = comerciosOrdenados.map(comercio => {
+      const tieneDestacado = (comercio.plan_id === 'oro' || comercio.plan_id === 'plata' || comercio.plan_id === 'premium' || comercio.plan_id === 'destacado_cat' || (comercio.plan && comercio.plan.destacado_categoria));
+      
+      return `
       <article 
         onclick="window.location.href='/comercios/${comercio.slug}.html'"
         class="bg-white rounded-3xl border border-slate-200/90 shadow-2xs hover:shadow-lg hover:border-sky-300 transition-all flex flex-col justify-between overflow-hidden group cursor-pointer"
@@ -1658,17 +1669,9 @@ function initCategoryPage() {
               <span class="bg-white/95 backdrop-blur-xs text-slate-900 text-xs font-extrabold px-2.5 py-1 rounded-lg shadow-xs">
                 ${comercio.subcategoria}
               </span>
-              ${(comercio.plan_id === 'oro' || comercio.plan_id === 'premium' || comercio.fijado_home) ? `
+              ${tieneDestacado ? `
                 <span class="bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 text-xs font-black px-2.5 py-1 rounded-lg shadow-xs flex items-center gap-1">
-                  <i data-lucide="star" class="w-3.5 h-3.5 fill-slate-950 text-slate-950"></i> Oro
-                </span>
-              ` : (comercio.plan_id === 'plata' || comercio.plan_id === 'destacado_cat') ? `
-                <span class="bg-slate-200/95 backdrop-blur-xs text-slate-800 text-xs font-black px-2.5 py-1 rounded-lg shadow-xs border border-slate-300 flex items-center gap-1">
-                  <i data-lucide="award" class="w-3.5 h-3.5 text-slate-700"></i> Plata
-                </span>
-              ` : comercio.plan_id === 'bronce' ? `
-                <span class="bg-amber-900/90 backdrop-blur-xs text-amber-100 text-xs font-bold px-2 py-1 rounded-lg border border-amber-700/60 flex items-center gap-1">
-                  <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-300"></i> Bronce
+                  <i data-lucide="star" class="w-3.5 h-3.5 fill-slate-950 text-slate-950"></i> Destacado
                 </span>
               ` : ''}
             </div>
@@ -1731,7 +1734,8 @@ function initCategoryPage() {
           ` : ''}
         </div>
       </article>
-    `).join('');
+      `;
+    }).join('');
 
     if (window.lucide) window.lucide.createIcons();
   }
@@ -1842,4 +1846,171 @@ window.compartirFicha = function(titulo, texto, url) {
     }).catch(() => {});
   }
 };
+
+// --------------------------------------------------------------------
+// 8. Visor de Galería a Pantalla Completa (Lightbox / Carrusel)
+// --------------------------------------------------------------------
+let currentLightboxIndex = 0;
+let currentLightboxPhotos = [];
+let touchStartX = 0;
+let touchEndX = 0;
+
+function handleLightboxKeyDown(e) {
+  if (e.key === 'Escape') {
+    closeGalleryLightbox();
+  } else if (e.key === 'ArrowRight') {
+    nextGalleryPhoto();
+  } else if (e.key === 'ArrowLeft') {
+    prevGalleryPhoto();
+  }
+}
+
+function updateLightboxDisplay() {
+  const modal = document.getElementById('gallery-lightbox-modal');
+  if (!modal) return;
+  const imgEl = modal.querySelector('#gallery-lightbox-img');
+  const counterEl = modal.querySelector('#gallery-lightbox-counter');
+  const prevBtn = modal.querySelector('#gallery-lightbox-prev');
+  const nextBtn = modal.querySelector('#gallery-lightbox-next');
+
+  if (imgEl && currentLightboxPhotos.length > 0) {
+    imgEl.src = currentLightboxPhotos[currentLightboxIndex];
+  }
+  if (counterEl) {
+    counterEl.textContent = `${currentLightboxIndex + 1} / ${currentLightboxPhotos.length}`;
+  }
+  if (prevBtn && nextBtn) {
+    const showNav = currentLightboxPhotos.length > 1;
+    prevBtn.style.display = showNav ? 'flex' : 'none';
+    nextBtn.style.display = showNav ? 'flex' : 'none';
+  }
+}
+
+window.openGalleryLightbox = function(initialIndex = 0, photos = null) {
+  if (Array.isArray(photos) && photos.length > 0) {
+    currentLightboxPhotos = photos;
+  } else if (Array.isArray(window.CURRENT_MERCHANT_PHOTOS) && window.CURRENT_MERCHANT_PHOTOS.length > 0) {
+    currentLightboxPhotos = window.CURRENT_MERCHANT_PHOTOS;
+  } else if (typeof COMERCIOS_DATA !== 'undefined') {
+    const currentPath = window.location.pathname;
+    const slug = currentPath.split('/').pop().replace('.html', '');
+    const com = COMERCIOS_DATA.find(c => c.slug === slug);
+    if (com && Array.isArray(com.fotos) && com.fotos.length > 0) {
+      currentLightboxPhotos = com.fotos;
+    }
+  }
+
+  if (!currentLightboxPhotos || currentLightboxPhotos.length === 0) return;
+
+  currentLightboxIndex = Math.max(0, Math.min(initialIndex, currentLightboxPhotos.length - 1));
+
+  let modal = document.getElementById('gallery-lightbox-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'gallery-lightbox-modal';
+    modal.className = 'fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col justify-between p-4 sm:p-6 text-white select-none transition-opacity duration-200';
+    modal.innerHTML = `
+      <!-- Barra Superior -->
+      <div class="flex items-center justify-between z-10">
+        <span id="gallery-lightbox-counter" class="text-xs sm:text-sm font-bold bg-white/10 px-3 py-1.5 rounded-full border border-white/20 backdrop-blur-xs">
+          1 / 1
+        </span>
+        <button 
+          type="button" 
+          onclick="closeGalleryLightbox()" 
+          class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer border border-white/20 focus:outline-none"
+          title="Cerrar visor (Esc)"
+        >
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Contenedor Principal de Imagen con Flechas -->
+      <div class="relative flex-1 flex items-center justify-center my-2 overflow-hidden" id="gallery-lightbox-container">
+        <button 
+          type="button" 
+          id="gallery-lightbox-prev"
+          onclick="prevGalleryPhoto()" 
+          class="absolute left-2 sm:left-4 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition border border-white/20 cursor-pointer shadow-xl focus:outline-none"
+          title="Foto anterior"
+        >
+          <i data-lucide="chevron-left" class="w-6 h-6"></i>
+        </button>
+
+        <img 
+          id="gallery-lightbox-img" 
+          src="" 
+          alt="Foto ampliada" 
+          class="max-h-[78vh] max-w-[92vw] object-contain rounded-2xl shadow-2xl transition-all duration-200"
+        >
+
+        <button 
+          type="button" 
+          id="gallery-lightbox-next"
+          onclick="nextGalleryPhoto()" 
+          class="absolute right-2 sm:right-4 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition border border-white/20 cursor-pointer shadow-xl focus:outline-none"
+          title="Foto siguiente"
+        >
+          <i data-lucide="chevron-right" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <!-- Pie con Indicaciones -->
+      <div class="text-center text-slate-400 text-xs py-1 z-10">
+        <span class="hidden sm:inline">Usá las flechas del teclado o hacé clic para navegar · Tecla Esc para cerrar</span>
+        <span class="sm:hidden">Deslizá hacia los lados para navegar</span>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    const container = modal.querySelector('#gallery-lightbox-container');
+    container.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    container.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const swipeDistance = touchEndX - touchStartX;
+      if (Math.abs(swipeDistance) > 40) {
+        if (swipeDistance < 0) {
+          nextGalleryPhoto();
+        } else {
+          prevGalleryPhoto();
+        }
+      }
+    }, { passive: true });
+  }
+
+  modal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  window.addEventListener('keydown', handleLightboxKeyDown);
+
+  updateLightboxDisplay();
+
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+};
+
+window.closeGalleryLightbox = function() {
+  const modal = document.getElementById('gallery-lightbox-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+  }
+  document.body.style.overflow = '';
+  window.removeEventListener('keydown', handleLightboxKeyDown);
+};
+
+window.nextGalleryPhoto = function() {
+  if (currentLightboxPhotos.length <= 1) return;
+  currentLightboxIndex = (currentLightboxIndex + 1) % currentLightboxPhotos.length;
+  updateLightboxDisplay();
+};
+
+window.prevGalleryPhoto = function() {
+  if (currentLightboxPhotos.length <= 1) return;
+  currentLightboxIndex = (currentLightboxIndex - 1 + currentLightboxPhotos.length) % currentLightboxPhotos.length;
+  updateLightboxDisplay();
+};
+
 
