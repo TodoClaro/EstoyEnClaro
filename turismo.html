@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Paseos y Atractivos Turísticos | Estoy en Claro - Claromecó</title>
+    <meta name="description" content="Guía turística de Claromecó y Dunamar: Faro Claromecó, El Caracolero, Las 7 Cascadas, Estación Forestal y paseos en 4x4 por los médanos." />
+    <meta property="og:title" content="Paseos y Atractivos Turísticos en Claromecó | Estoy en Claro" />
+    <meta property="og:description" content="Descubrí el Faro, la Estación Forestal, el Arroyo y los mejores paseos de Claromecó y Dunamar." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="/og-image.png" />
+    <meta name="theme-color" content="#0284C7" />
+
+    <!-- Favicons y App Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Fuentes Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+              display: ['Outfit', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-cyan-100 selection:text-cyan-900 min-h-screen flex flex-col pb-20 md:pb-0">
+
+    <!-- HEADER / NAVBAR COMPARTIDO -->
+    <div id="header-placeholder"></div>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Faro -->
+        <article class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-2xs hover:shadow-md transition flex flex-col">
+          <div class="h-60 bg-slate-100 overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1000&auto=format&fit=crop&q=80" alt="Faro Claromecó" class="w-full h-full object-cover">
+            <span class="absolute top-4 right-4 bg-sky-900/80 backdrop-blur-md text-white text-xs font-extrabold px-3 py-1 rounded-full">Monumento Histórico</span>
+          </div>
+          <div class="p-6 space-y-4 flex-1 flex flex-col justify-between">
+            <div class="space-y-2">
+              <h2 class="text-xl font-bold text-slate-900">Faro Claromecó (1922)</h2>
+              <p class="text-xs text-slate-500 font-semibold flex items-center gap-1">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sky-600"></i> Costanera Sur a 2 km del centro
+              </p>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Inaugurado en 1922 con 54 metros de altura, es uno de los faros más altos de Sudamérica. Desde su base se obtienen vistas panorámicas deslumbrantes del mar y las dunas. Su parque arbolado es ideal para tomar mate.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <span class="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg">Acceso Libre & Gratuito</span>
+              <span class="font-semibold text-slate-700">Por Costanera Sur</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Estación Forestal -->
+        <article class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-2xs hover:shadow-md transition flex flex-col">
+          <div class="h-60 bg-slate-100 overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1000&auto=format&fit=crop&q=80" alt="Estación Forestal Claromecó" class="w-full h-full object-cover">
+            <span class="absolute top-4 right-4 bg-emerald-900/80 backdrop-blur-md text-white text-xs font-extrabold px-3 py-1 rounded-full">Reserva Natural</span>
+          </div>
+          <div class="p-6 space-y-4 flex-1 flex flex-col justify-between">
+            <div class="space-y-2">
+              <h2 class="text-xl font-bold text-slate-900">Estación Forestal Ing. Paolucci (El Vivero)</h2>
+              <p class="text-xs text-slate-500 font-semibold flex items-center gap-1">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sky-600"></i> Acceso por Ruta 73 (a 3 km del casco urbano)
+              </p>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Un predio de casi 300 hectáreas de frondosa arboleda que fijó los médanos. Cuenta con sector de parrillas y fogones habilitados, senderos para caminatas, circuitos de bicicleta y paseos a caballo.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <span class="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg">Fogones y Senderos</span>
+              <span class="font-semibold text-slate-700">Abierto Todo el Año</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Cascadas -->
+        <article class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-2xs hover:shadow-md transition flex flex-col">
+          <div class="h-60 bg-slate-100 overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1000&auto=format&fit=crop&q=80" alt="Paseo de las 7 Cascadas" class="w-full h-full object-cover">
+            <span class="absolute top-4 right-4 bg-cyan-900/80 backdrop-blur-md text-white text-xs font-extrabold px-3 py-1 rounded-full">Arroyo y Paseos</span>
+          </div>
+          <div class="p-6 space-y-4 flex-1 flex flex-col justify-between">
+            <div class="space-y-2">
+              <h2 class="text-xl font-bold text-slate-900">Paseo de las 7 Cascadas</h2>
+              <p class="text-xs text-slate-500 font-semibold flex items-center gap-1">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sky-600"></i> Ribera del Arroyo Claromecó hacia Dunamar
+              </p>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Saltos de agua y piletones naturales sobre el lecho de roca del arroyo Claromecó. Sitio predilecto para paseos en kayak, Stand Up Paddle (SUP) y avistaje de cisnes de cuello negro y garzas.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <span class="font-bold text-cyan-700 bg-cyan-50 px-2.5 py-1 rounded-lg">Ideal Kayak & SUP</span>
+              <span class="font-semibold text-slate-700">Aguas Calmas</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- El Caracolero -->
+        <article class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-2xs hover:shadow-md transition flex flex-col">
+          <div class="h-60 bg-slate-100 overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1000&auto=format&fit=crop&q=80" alt="El Caracolero" class="w-full h-full object-cover">
+            <span class="absolute top-4 right-4 bg-amber-900/80 backdrop-blur-md text-white text-xs font-extrabold px-3 py-1 rounded-full">Travesías 4x4</span>
+          </div>
+          <div class="p-6 space-y-4 flex-1 flex flex-col justify-between">
+            <div class="space-y-2">
+              <h2 class="text-xl font-bold text-slate-900">El Caracolero & Segundo Salto</h2>
+              <p class="text-xs text-slate-500 font-semibold flex items-center gap-1">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sky-600"></i> Franja costera este a 12 km del Faro
+              </p>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Playa virgen donde las mareas depositan millones de caracoles gigantes. Es el circuito por excelencia para camionetas 4x4, cuatriciclos y fanáticos de la pesca pesada de corvina negra y tiburón.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <span class="font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-lg">Exclusivo 4x4 (14-16 lbs)</span>
+              <span class="font-semibold text-slate-700">Ver Tabla Mareas</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </main>
+
+    <!-- FOOTER, BARRA MÓVIL Y MODALES COMPARTIDOS -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Data and Application Scripts (Vanilla JS) -->
+    <script src=/data/comercios.js></script>
+    <script src=/js/app.js></script>
+  </body>
+</html>
