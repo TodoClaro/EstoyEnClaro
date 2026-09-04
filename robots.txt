@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://estoyenclaro.com.ar/sitemap.xml
